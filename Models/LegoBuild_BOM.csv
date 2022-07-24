@@ -1,0 +1,43 @@
+BLItemNo,ElementId,LdrawId,PartName,BLColorId,LDrawColorId,ColorName,ColorCategory,Qty,Weight
+11214,6209519,11214,"Technic, Axle  1L with Pin 2L with Friction Ridges",5,4,Red,Solid Colors,6,0.35
+11478,,11478,"Technic, Liftarm Thin 1 x 5 - Axle Holes",9,7,Light Gray,Solid Colors,2,0.7
+18942,6273338,18942,"Technic, Gear Rack 1 x 14 x 2 with Axle and Pin Holes",85,72,Dark Bluish Gray,Solid Colors,2,7.5
+22961,,22961,"Technic, Axle and Pin Connector Hub with 1 Axle",10,8,Dark Gray,Solid Colors,2,0.34
+2431,243126,2431,Tile 1 x 4,11,0,Black,Solid Colors,14,0.54
+2780,6279875,2780,"Technic, Pin with Friction Ridges",11,0,Black,Solid Colors,10,0.16
+2825,6331574,2825,"Technic, Liftarm, Modified Stud Connector Thin 1 x 4",86,71,Light Bluish Gray,Solid Colors,2,0.75
+3009,4620992,3009,Brick 1 x 6,55,379,Sand Blue,Solid Colors,12,2.42
+3010,4620993,3010,Brick 1 x 4,55,379,Sand Blue,Solid Colors,4,1.64
+3031,4243815,3031,Plate 4 x 4,7,1,Blue,Solid Colors,1,2.22
+32002,6013938,32002,"Technic, Pin 3/4",2,19,Tan,Solid Colors,8,0.11
+32013,6296856,32013,"Technic, Axle and Pin Connector Angled #1",85,72,Dark Bluish Gray,Solid Colors,9,0.46
+32034,6271869,32034,"Technic, Axle and Pin Connector Angled #2 - 180 degrees",11,0,Black,Solid Colors,3,0.68
+32039,6331716,32039,"Technic, Axle Connector with Axle Hole",11,0,Black,Solid Colors,2,0.3
+32062,4142865,32062,"Technic, Axle  2L Notched",5,4,Red,Solid Colors,2,0.26
+32064,6178922,32064,"Technic, Brick 1 x 2 with Axle Hole",11,0,Black,Solid Colors,2,0.88
+32073,,32073,"Technic, Axle  5L",103,226,Bright Light Yellow,Solid Colors,5,0.66
+4265c,4203585,4265c,Technic Bush 1/2 Smooth,1,15,White,Solid Colors,2,0.1
+32523,4509376,32523,"Technic, Liftarm Thick 1 x 3",7,1,Blue,Solid Colors,5,0.7
+32532,4188143,32532,"Technic, Brick 6 x 8 Open Center",11,0,Black,Solid Colors,6,8
+3702,370226,3702,"Technic, Brick 1 x 8 with Holes",11,0,Black,Solid Colors,2,2.85
+3705,370526,3705,"Technic, Axle  4L",11,0,Black,Solid Colors,4,0.6
+3706,6130002,3706,"Technic, Axle  6L",5,4,Red,Solid Colors,4,0.94
+3713,6275844,3713,Technic Bush,86,71,Light Bluish Gray,Solid Colors,11,0.14
+3737,373726,3737,"Technic, Axle 10L",11,0,Black,Solid Colors,1,1.49
+3894,389426,3894,"Technic, Brick 1 x 6 with Holes",11,0,Black,Solid Colors,2,2.2
+41239,4522937,41239,"Technic, Liftarm Thick 1 x 13",85,72,Dark Bluish Gray,Solid Colors,2,3.3
+4162,416226,4162,Tile 1 x 8,11,0,Black,Solid Colors,12,1.06
+41677,6371442,41677,"Technic, Liftarm Thin 1 x 2 - Axle Holes",5,4,Red,Solid Colors,4,0.33
+43093,,43093,"Technic, Axle  1L with Pin with Friction Ridges",153,321,Dark Azure,Solid Colors,10,0.26
+4519,4211815,4519,"Technic, Axle  3L",86,71,Light Bluish Gray,Solid Colors,3,0.43
+60484,4552349,60484,"Technic, Liftarm, Modified T-Shape Thick 3 x 3",85,72,Dark Bluish Gray,Solid Colors,4,1.19
+6536,6261375,6536,"Technic, Axle and Pin Connector Perpendicular",86,71,Light Bluish Gray,Solid Colors,4,0.39
+6538b,4211543,6538b,"Technic, Axle Connector 2L (Ridged with x Hole x Orientation)",86,71,Light Bluish Gray,Solid Colors,3,0.4
+6558,,6558,"Technic, Pin 3L with Friction Ridges",153,321,Dark Azure,Solid Colors,14,0.31
+6632,6360038,6632,"Technic, Liftarm Thin 1 x 3 - Axle Holes",1,15,White,Solid Colors,2,0.45
+6636,663626,6636,Tile 1 x 6,11,0,Black,Solid Colors,2,0.83
+91405,4611414,91405,Plate 16 x 16,2,19,Tan,Solid Colors,1,35
+94925,4640536,94925,"Technic, Gear 16 Tooth (Second Version - Reinforced)",86,71,Light Bluish Gray,Solid Colors,2,0.7
+,,,,,,,,,
+Total qty,Total Weight,,,,,,,,
+186,227.24,,,,,,,,
