@@ -6,12 +6,12 @@ The purpose of this project is to build an adaptive solar panel robotic system t
 
 ## Progress
 - [X] Design branch mechanism
-- [] Build physical branch mechanism
-- [] Design physical computing system
-- [] Build physical computing system
-- [] Build 3D environment using Unity
-- [] Train PPO agent using ML-Agents library
-- [] Quantize and port trained ONNX model to Tensorflow-Lite
+- [ ] Build physical branch mechanism
+- [ ] Design physical computing system
+- [ ] Build physical computing system
+- [ ] Build 3D environment using Unity
+- [ ] Train PPO agent using ML-Agents library
+- [ ] Quantize and port trained ONNX model to Tensorflow-Lite
 
 ## Environment
 ### Observation space
