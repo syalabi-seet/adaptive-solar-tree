@@ -4,19 +4,24 @@ The purpose of this project is to build an adaptive solar panel robotic system t
 
 ![Solar Mechanism](Misc/Mechanism.png)
 
-## Agenda
-- A single "branch" mechanism will be build as prototype
-- A 3D environment will be built using Unity
-- A PPO Agent will be trained using ML-Agents library
-- The trained agent ONNX model will be ported to Tensorflow-lite
+## Progress
+- [X] Design branch mechanism
+- [] Build physical branch mechanism
+- [] Design physical computing system
+- [] Build physical computing system
+- [] Build 3D environment using Unity
+- [] Train PPO agent using ML-Agents library
+- [] Quantize and port trained ONNX model to Tensorflow-Lite
 
 ## Environment
-- Observation states will consist of:
-    - States of light sensors (boolean)
-    - Stepper motor angles (float)
-    - Incident angles of each panel (float)
-    - Power output from each panel (float)
-- Action space will be incremental angles for all 3 stepper motors
+### Observation space
+- States of light sensors (int)
+- Incident angle of branch panel (float)
+### Action space
+- Angular positions of all 3 stepper motors
+### Rewards
+- Reward will be given when all light sensor states are 1 and incident angles are approximately perpendicular to the sun
+- Penalty will be given for every incremental angle to move motors
 
 Environment scripts will be coded in C#.
 
