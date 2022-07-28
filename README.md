@@ -2,6 +2,8 @@
 
 The purpose of this project is to build an adaptive solar panel robotic system that is able to autonomously veer away from shadows and orient itself perpendicularly to the sun to maximize power efficiency.
 
+![Solar Mechanism](Misc\Mechanism.png)
+
 ## Agenda
 - A single "branch" mechanism will be build as prototype
 - A 3D environment will be built using Unity
@@ -29,3 +31,5 @@ To further maximize power efficiency, a light-weight Raspberry Pi PICO microcont
 The microcontroller will be coded in C++ utilizing Tensorflow Lite API and Raspberry Pi PICO SDK.
 
 Light sensors will be attached around the solar panels for light detection.
+
+![System Diagram](Misc\Diagram.png)
