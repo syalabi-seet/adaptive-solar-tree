@@ -1,0 +1,25 @@
+BLItemNo,ElementId,LdrawId,PartName,BLColorId,LDrawColorId,ColorName,ColorCategory,Qty,Weight
+15100,6282148,15100,"Technic, Pin with Friction Ridges and Pin Hole",1,15,White,Solid Colors,8,0.4
+18654,6177114,18654,"Technic, Liftarm Thick 1 x 1 (Spacer)",1,15,White,Solid Colors,2,0.17
+23948,,23948,"Technic, Axle 11L",1,15,White,Solid Colors,1,1.65
+24316,,24316,"Technic, Axle  3L with Stop",1,15,White,Solid Colors,2,0.45
+2780,,2780,"Technic, Pin with Friction Ridges",1,15,White,Solid Colors,6,0.16
+32013,6332573,32013,"Technic, Axle and Pin Connector Angled #1",1,15,White,Solid Colors,6,0.46
+32054,4193409,32054,"Technic, Pin 3L with Friction Ridges and Stop Bush",1,15,White,Solid Colors,8,0.33
+32062,4163623,32062,"Technic, Axle  2L Notched",1,15,White,Solid Colors,4,0.26
+32523,4208160,32523,"Technic, Liftarm Thick 1 x 3",1,15,White,Solid Colors,1,0.7
+3705,,3705,"Technic, Axle  4L",1,15,White,Solid Colors,2,0.59
+3706,,3706,"Technic, Axle  6L",1,15,White,Solid Colors,2,0.94
+3713,4207525,3713,Technic Bush,1,15,White,Solid Colors,9,0.14
+3737,,3737,"Technic, Axle 10L",1,15,White,Solid Colors,1,1.49
+41239,4620671,41239,"Technic, Liftarm Thick 1 x 13",1,15,White,Solid Colors,2,3.3
+60483,6265135,60483,"Technic, Liftarm Thick 1 x 2 - Axle Hole",1,15,White,Solid Colors,6,0.46
+60484,,60484,"Technic, Liftarm, Modified T-Shape Thick 3 x 3",1,15,White,Solid Colors,2,1.19
+6536,6261372,6536,"Technic, Axle and Pin Connector Perpendicular",1,15,White,Solid Colors,6,0.39
+6538b,4113803,6538b,"Technic, Axle Connector 2L (Ridged with x Hole x Orientation)",1,15,White,Solid Colors,2,0.4
+6632,6360038,6632,"Technic, Liftarm Thin 1 x 3 - Axle Holes",1,15,White,Solid Colors,2,0.45
+87083,,87083,"Technic, Axle  4L with Stop",1,15,White,Solid Colors,2,0.59
+94925,,94925,"Technic, Gear 16 Tooth (Second Version - Reinforced)",1,15,White,Solid Colors,2,0.7
+,,,,,,,,,
+Total qty,Total Weight,,,,,,,,
+77,38.46,,,,,,,,
