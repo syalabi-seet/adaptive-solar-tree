@@ -2,7 +2,8 @@
 
 The purpose of this project is to build an adaptive solar panel robotic system that is able to autonomously veer away from shadows and orient itself perpendicularly to the sun to maximize power efficiency.
 
-![Solar Mechanism](Misc/Mechanism.png)
+![Neutral state](Misc/Neutral_state.png)
+![Fully extended](Misc/Fully_extended.png)
 
 ## Progress
 - [X] Design branch module
