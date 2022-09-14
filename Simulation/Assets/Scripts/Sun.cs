@@ -8,17 +8,18 @@ namespace Entropedia
     [RequireComponent(typeof(Light))]
     public class Sun : MonoBehaviour
     {
-        public float latitude = 1.3521f;
-        public float longitude = 103.8198f;        
+        private float latitude;
+        private float longitude;
+        private string country;
 
         [Range(0, 24)]
-        public int hour = 0;
+        private int hour = 0;
 
         [Range(0, 60)]
-        public int minutes = 0;
+        private int minutes = 0;
 
         DateTime time;
-        Light light;
+        new Light light;
 
         [SerializeField]
         float timeSpeed = 5000;
@@ -44,7 +45,6 @@ namespace Entropedia
             this.hour = dateTime.Hour;
             this.minutes = dateTime.Minute;
             this.date = dateTime.Date;
-            Debug.Log(dateTime);
         }
 
         public void SetUpdateSteps(int i) {
@@ -68,7 +68,6 @@ namespace Entropedia
                 SetPosition();
             }
             frameStep = (frameStep + 1) % frameSteps;
-            // Debug.Log(time);
         }
 
         private void OnGUI()
@@ -76,7 +75,7 @@ namespace Entropedia
             GUI.contentColor = Color.green;
 
             // Print world settings on game scene
-            string location = String.Concat("Coordinates: (", latitude, ", ", longitude, ")");
+            string location = String.Concat("Coordinates: (",  latitude, ", ", longitude, ")");
             GUI.Label(new Rect(10, 10, 300, 20), location);
 
             string date = String.Concat("Date/Time: ", time);

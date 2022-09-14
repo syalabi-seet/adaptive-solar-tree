@@ -1,21 +1,19 @@
 # Adaptive Solar Tree
 
-The purpose of this project is to test an adaptive solar panel robotic system that is able to autonomously veer away from shadows and orient itself perpendicularly to the sun to maximize power efficiency.
-
 ## Progress
 - [X] Design branch module
-- [ ] Design observation-decision-action-reward cycle
-- [ ] Build 3D environment using Unity
-- [ ] Interface 3D environment with Python API
-- [ ] Train various reinforcement architectures using PyTorch (DQN, PPO, AC3)
+- [X] Design observation-decision-action-reward cycle
+- [X] Build simulated environment using Unity
+- [ ] Train various reinforcement architectures using ML-agents' Python API and StableBaselines (DQN, PPO, AC3)
 
 ## Environment
 ### Observation space
 - Light sensor outputs (12 states, int)
-- Optimal azimuth and zenith angle of module (2 states, float)
-- Motor angles (5 states, int)
+<!-- - Camera feed gray image ((128, 128, 1) array, int) -->
+- Optimal azimuth and zenith angle of module in degrees (2 states, float)
+- Current motor angles in degrees (5 states, int)
 ### Action space
-- Target rotation of all stepper motors in radians (continuous action)
+- Target angle of all motors in degrees (continuous action)
 ### Rewards
 - +1 for every step when all light sensor states are 1 and incident angles are approximately perpendicular to the sun
 - -0.00005 for every incremental angle to move motors
@@ -24,11 +22,11 @@ Environment scripts will be coded in C# in Unity.
 
 ## Orientation mechanism
 Due to time-constraints, an actual mechanism was not built. Instead, a mock-up design taking inspiration from 
-robotic arm manipulators was used as the mechanism.
+robotic arm manipulators was used as the mechanism namely the [Universal Robots' UR3 robotic arm](https://wiredworkers.io/universal-robots-ur3/).
 
 The supposed mechanism would have 5-axis DOF, comprising of 5 rotary joints.
 
-Off-the-shelf robotic arms tend to be equipped with servo or stepper motors that do not have high detent torque meaning that it cannot hold any torque when not powered. This characteristic will not make robotic arms work for this use case, as such, a self-locking mechanism will be required namely using worm gears.
+Off-the-shelf robotic arms tend to be equipped with servo or stepper motors that do not have high detent torque meaning that it cannot hold any torque when not powered. This characteristic will not make robotic arms work for this use case, as such, a self-locking mechanism will be required using worm gears.
 
 ## Physical computing
 To further maximize power efficiency, a light-weight Raspberry Pi PICO microcontroller will be used for its physical computing. Deep sleep or dormant mode will be engaged in between periods of compute, reducing power consumptions up to 99% at 0.8mA. 
@@ -41,8 +39,6 @@ Microcontroller scripts will be coded in C++ utilizing Tensorflow Lite API and R
 
 ## Reinforcement Agent
 The training scripts will be coded in Python using ML-Agents Python API and PyTorch.
-
----
 
 ## References
 - [SPA C# Implementation](https://gist.github.com/paulhayes/54a7aa2ee3cccad4d37bb65977eb19e2)
