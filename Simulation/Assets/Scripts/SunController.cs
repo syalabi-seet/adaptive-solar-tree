@@ -1,68 +1,150 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Entropedia
+namespace Module
 {
-    [RequireComponent(typeof(Light))]
-    public class Sun : MonoBehaviour
+    [RequireComponent(typeof(Light)), AddComponentMenu("ML Agents/Sun Controller")]
+    public class SunController : MonoBehaviour
     {
-        private float latitude;
-        private float longitude;
-        private string country;
+        public bool random = true;
+        public float latitude = 1.3521f;
+        public float longitude = 103.8198f;
+        public string country = "Singapore";
 
         [Range(0, 24)]
-        private int hour = 0;
+        public int hour = 0;
 
         [Range(0, 60)]
-        private int minutes = 0;
+        public int minute = 0;
+
+        [Range(2022, 2025)]
+        public int year = 2022;
+
+        [Range(1, 12)]
+        public int month = 1;
+
+        [Range(1, 31)]
+        public int day = 1;
 
         DateTime time;
         new Light light;
 
         [SerializeField]
-        float timeSpeed = 5000;
+        float timeSpeed = 10;
 
         [SerializeField]
         int frameSteps = 1;
         int frameStep;
 
         DateTime date;
+        DateTime[] dateRange;
 
-        public void SetTime(int hour, int minutes) {
-            this.hour = hour;
-            this.minutes = minutes;            
+
+        private void SetLocation()
+        {
+            // Read csv file
+            string filename = @"Assets/Data/Locations.csv";
+            using(var reader = new StreamReader(filename))
+            {
+                List<string> dataList = new List<string>();
+                while (!reader.EndOfStream)
+                {
+                    string line = reader.ReadLine();
+                    dataList.Add(line);                            
+                }
+                
+                // Get random country
+                if (random == true)
+                {
+                    int id = UnityEngine.Random.Range(1, 241);
+                    var countryData = dataList[id].Split("|");
+                    country = countryData[0];
+                    latitude = float.Parse(countryData[1]);
+                    longitude = float.Parse(countryData[2]);
+                }     
+
+                latitude += UnityEngine.Random.Range(-1.0f, 1.0f);
+                longitude += UnityEngine.Random.Range(-1.0f, 1.0f);   
+            }
         }
 
-        public void SetLocation(float latitude, float longitude){
-            this.longitude = longitude;
-            this.latitude = latitude;
+        private void SetDate()
+        {
+            if (random == true)
+            {
+                year = UnityEngine.Random.Range(2022, 2025);
+                month = UnityEngine.Random.Range(1, 12);
+                if (month == 2)
+                {
+                    day = UnityEngine.Random.Range(0, 29);
+                } else
+                {
+                    day = UnityEngine.Random.Range(0, 32);
+                }                    
+            }
+
+            try
+            {
+                time = new DateTime(year, month, day, hour, minute, 0);  
+            }
+            catch (System.Exception)
+            {
+                Debug.Log("Retrying...");
+                day = 30;
+                time = new DateTime(year, month, day, hour, minute, 0);  
+            }       
         }
 
-        public void SetDate(DateTime dateTime){
-            this.time = dateTime;
-            this.hour = dateTime.Hour;
-            this.minutes = dateTime.Minute;
-            this.date = dateTime.Date;
+        private void GenerateSolarData()
+        {
+            string filename = @"Assets/Data/SolarGeometricData.csv";
+            StreamWriter sw = new StreamWriter(filename, false);
+            sw.WriteLine("timeIndex, solarZenith, solarAzimuth");
+
+            // Loop hour
+            int timeIndex = 0;
+            for (int m_hour = 0; m_hour <= 23; m_hour++)
+            {
+                // Loop minute
+                for (int m_minute = 0; m_minute <= 59; m_minute++)
+                {
+                    DateTime m_time = new DateTime(year, month, day, m_hour, m_minute, 0);      
+                    double m_alt;
+                    double m_azi;
+                    SunPosition.CalculateSunPosition(m_time, (double)latitude, (double)longitude, out m_azi, out m_alt);
+                    double m_zen = 90.0f - m_alt;
+                    string outString = string.Format("{0}, {1}, {2}", timeIndex, m_zen, m_azi);
+                    sw.WriteLine(outString);
+                    timeIndex++;
+                }
+            }
+            sw.Close();
+            Debug.Log("Solar geometric data generated");
         }
 
-        public void SetUpdateSteps(int i) {
+        private void SetUpdateSteps(int i) {
             frameSteps = i;
         }
 
-        public void SetTimeSpeed(float speed) {
+        private void SetTimeSpeed(float speed) {
             timeSpeed = speed;
         }
 
         private void Start()
         {
             light = GetComponent<Light>();
+            SetLocation();
+            SetDate();
+            // GenerateSolarData();
         }
 
         private void Update()
         {
-            time = time.AddSeconds(timeSpeed * Time.deltaTime);
+            time = time.AddSeconds(60 * timeSpeed * Time.deltaTime);
             if (frameStep==0) 
             {
                 SetPosition();
@@ -70,28 +152,29 @@ namespace Entropedia
             frameStep = (frameStep + 1) % frameSteps;
         }
 
+        private void SetPosition()
+        {
+            double alt;
+            double azi;
+            SunPosition.CalculateSunPosition(time, (double)latitude, (double)longitude, out azi, out alt);
+            Vector3 angles = new Vector3((float)alt, (float)azi, 0);                                      
+            transform.localRotation = Quaternion.Euler(angles);
+            light.intensity = Mathf.InverseLerp(-12, 0, angles.x);
+        }
+
         private void OnGUI()
         {
             GUI.contentColor = Color.green;
 
             // Print world settings on game scene
+            string country_str = String.Concat("Country: ", country);
+            GUI.Label(new Rect(10, 0, 300, 20), country_str);
+
             string location = String.Concat("Coordinates: (",  latitude, ", ", longitude, ")");
-            GUI.Label(new Rect(10, 10, 300, 20), location);
+            GUI.Label(new Rect(10, 15, 300, 20), location);
 
             string date = String.Concat("Date/Time: ", time);
-            GUI.Label(new Rect(10, 25, 300, 20), date);
-        }
-
-        void SetPosition()
-        {
-            Vector3 angles = new Vector3();
-            double alt;
-            double azi;
-            SunPosition.CalculateSunPosition(time, (double)latitude, (double)longitude, out azi, out alt);
-            angles.x = (float)alt * Mathf.Rad2Deg; 
-            angles.y = (float)azi * Mathf.Rad2Deg;                                            
-            transform.localRotation = Quaternion.Euler(angles);
-            light.intensity = Mathf.InverseLerp(-12, 0, angles.x);
+            GUI.Label(new Rect(10, 30, 300, 20), date);
         }
     }
 
@@ -111,7 +194,7 @@ namespace Entropedia
          * given date and time in local time, latitude and longitude 
          * expressed in decimal degrees. It is based on the method 
          * found here: 
-         * http://www.astro.uio.no/~bgranslo/aares/calculate.html 
+         * http://www.astro.uio.no/~bgranslo/aares/calculate.html
          * The calculation is only satisfiably correct for dates in 
          * the range March 1 1900 to February 28 2100. 
          * \param dateTime Time and date in local time. 
@@ -202,8 +285,8 @@ namespace Entropedia
                 azimuth += 2 * Math.PI;
             }
 
-            outAltitude = altitude;
-            outAzimuth = azimuth;
+            outAltitude = altitude * Mathf.Rad2Deg;
+            outAzimuth = azimuth * Mathf.Rad2Deg;
         }
 
         /*! 

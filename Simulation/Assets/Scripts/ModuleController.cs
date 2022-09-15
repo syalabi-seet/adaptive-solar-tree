@@ -7,45 +7,63 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 
-public class ModuleController : Agent
+namespace Module
 {
-    private bool[] shadowStates;
-    private int numberOfSensors;
-    ShadowSensor shadowSensor;
-    EnvironmentParameters m_ResetParams; 
-
-    private void Awake()
+    public class ModuleController : Agent
     {
-        shadowSensor = GetComponent<ShadowSensor>();
-    }
+        private bool[] shadowStates;
+        private int numberOfSensors;
+        private float m_Elevation;
+        ShadowSensor shadowSensor;
+        EnvironmentParameters m_ResetParams; 
 
-    public override void CollectObservations(VectorSensor sensor)
-    {
-        // Add shadow state to observation state (12)
-        shadowStates = shadowSensor.shadowStates;
-        numberOfSensors = shadowSensor.numberOfSensors;
-        for (int i = 0; i < numberOfSensors; i++)
+        private void Awake()
         {
-            sensor.AddObservation(Convert.ToInt32(shadowStates[i]));
-        }        
+            shadowSensor = GetComponent<ShadowSensor>();
+            m_Elevation = transform.position.y;
+        }
 
-        // Add target azimuth and zenith angle of module state (2)
+        public override void CollectObservations(VectorSensor sensor)
+        {
+            // Add shadow state to observation state (12)
+            CollectShadowStates(sensor);
 
-        // Add current motor angle state (5)
-    }
+            // Add shadow ratios per module
+            // CollectShadowRatios(sensor);
+            
+            // Add solar angles
 
-    public override void OnActionReceived(ActionBuffers actionBuffers)
-    {
+            // Add current motor angle state (5)
+        }
 
-    }
+        private void CollectShadowStates(VectorSensor sensor)
+        {
+            shadowStates = shadowSensor.shadowStates;
+            numberOfSensors = shadowSensor.numberOfSensors;
+            for (int i = 0; i < numberOfSensors; i++)
+            {
+                sensor.AddObservation(Convert.ToInt32(shadowStates[i]));
+            }
+        }
 
-    public override void OnEpisodeBegin()
-    {
+        private void CollectShadowRatios(VectorSensor sensor)
+        {
 
-    }
+        }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
+        public override void OnActionReceived(ActionBuffers actionBuffers)
+        {
 
+        }
+
+        public override void OnEpisodeBegin()
+        {
+
+        }
+
+        public override void Heuristic(in ActionBuffers actionsOut)
+        {
+
+        }
     }
 }

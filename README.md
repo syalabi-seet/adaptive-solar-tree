@@ -9,8 +9,8 @@
 ## Environment
 ### Observation space
 - Light sensor outputs (12 states, int)
-<!-- - Camera feed gray image ((128, 128, 1) array, int) -->
-- Optimal azimuth and zenith angle of module in degrees (2 states, float)
+- Shadow ratio per module (6 states, float)
+- Solar angles ([hour angle, elevation angle, azimuth angle], float)
 - Current motor angles in degrees (5 states, int)
 ### Action space
 - Target angle of all motors in degrees (continuous action)
@@ -36,9 +36,6 @@ Light sensors will be attached around the solar panels for shadow detection.
 Microcontroller scripts will be coded in C++ utilizing Tensorflow Lite API and Raspberry Pi PICO SDK.
 
 ![System Diagram](Misc/Diagram.png)
-
-## Reinforcement Agent
-The training scripts will be coded in Python using ML-Agents Python API and PyTorch.
 
 ## References
 - [SPA C# Implementation](https://gist.github.com/paulhayes/54a7aa2ee3cccad4d37bb65977eb19e2)
