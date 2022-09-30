@@ -10,13 +10,14 @@
 ### Observation space
 - Light sensor outputs (12 states, int)
 - Shadow ratio per module (6 states, float)
-- Solar angles ([hour angle, elevation angle, azimuth angle], float)
+- Solar angles ([elevation angle, azimuth angle], float)
 - Current motor angles in degrees (5 states, int)
 ### Action space
 - Target angle of all motors in degrees (continuous action)
 ### Rewards
-- +1 for every step when all light sensor states are 1 and incident angles are approximately perpendicular to the sun
-- -0.00005 for every incremental angle to move motors
+- +1 for every step when all light sensor states are 1 and incident angles are approximately perpendicular to the sun (+/- 5 deg)
+
+Agent will be trained every minute step and every episode will last a single day.
 
 Environment scripts will be coded in C# in Unity.
 
@@ -34,8 +35,6 @@ To further maximize power efficiency, a light-weight Raspberry Pi PICO microcont
 Light sensors will be attached around the solar panels for shadow detection.
 
 Microcontroller scripts will be coded in C++ utilizing Tensorflow Lite API and Raspberry Pi PICO SDK.
-
-![System Diagram](Misc/Diagram.png)
 
 ## References
 - [SPA C# Implementation](https://gist.github.com/paulhayes/54a7aa2ee3cccad4d37bb65977eb19e2)

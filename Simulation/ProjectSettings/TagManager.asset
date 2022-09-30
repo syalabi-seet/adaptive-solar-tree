@@ -6,6 +6,9 @@ TagManager:
   tags:
   - LightSource
   - Agent
+  - LightSensor
+  - Module
+  - Obstacle
   layers:
   - Default
   - TransparentFX

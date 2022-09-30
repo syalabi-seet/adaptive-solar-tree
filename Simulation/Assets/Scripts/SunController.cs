@@ -30,7 +30,7 @@ namespace Module
         [Range(1, 31)]
         public int day = 1;
 
-        DateTime time;
+        public DateTime time;
         new Light light;
 
         [SerializeField]

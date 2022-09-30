@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public bool spawnMode = false;
-    public GameObject[] obstaclePrefab;
+    public GameObject[] obstaclePrefabs;
 
     private Vector3 origin;
     private Vector3 spawnPos;
@@ -40,13 +40,13 @@ public class SpawnManager : MonoBehaviour
             Random.Range(-range, range));
 
         // Get random prefab index
-        int obstacleIndex = Random.Range(0, obstaclePrefab.Length);   
-        GameObject obstacle = obstaclePrefab[obstacleIndex];
-        obstacle = RandomPrefab(obstacle);
-        Instantiate(obstacle, spawnPos, obstacle.transform.rotation);       
+        int obstacleIndex = Random.Range(0, obstaclePrefabs.Length);   
+        GameObject obstaclePrefab = Randomize(obstaclePrefabs[obstacleIndex]);
+        GameObject spawnedObstacle = Instantiate(obstaclePrefab, spawnPos, obstaclePrefab.transform.rotation);    
+        spawnedObstacle.transform.parent = transform;           
     }
 
-    private GameObject RandomPrefab(GameObject obstacle)
+    private GameObject Randomize(GameObject obstacle)
     {
         // Set Random prefab size
         float randomSize = Random.Range(minSize, maxSize);
