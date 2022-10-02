@@ -4,17 +4,22 @@ using UnityEngine;
 
 namespace Module
 {
-    [AddComponentMenu("ML Agents/Light Sensor")]
-    public class LightSensor : MonoBehaviour
+    [AddComponentMenu("ML Agents/Light Sensor Component")]
+    public class LightSensorComponent : MonoBehaviour
     {
-        private int vectorLength = 5;
+        private int vectorLength = 6;
         public GameObject lightSource;
         public bool sensorState;
+
+        void Awake()
+        {
+            lightSource = GameObject.FindWithTag("LightSource");
+        }
 
         void Update()
         {
             Vector3 direction = (
-                transform.rotation *
+                transform.localRotation *
                 lightSource.transform.rotation *
                 Vector3.back *
                 vectorLength);
@@ -24,6 +29,8 @@ namespace Module
             RaycastHit[] hits = Physics.RaycastAll(origin, direction, Mathf.Infinity);
 
             bool rayOutput = FilterTags(hits);
+
+            float altitude = direction.y;
 
             if (rayOutput && direction.y > 0)
             {
@@ -45,7 +52,8 @@ namespace Module
         {
             foreach (RaycastHit hit in hits)
             {
-                if (hit.transform.tag == "Obstacle")
+                string tag = hit.transform.tag;
+                if (tag == "Obstacle" || tag == "Module")
                 {
                     return true;
                 }

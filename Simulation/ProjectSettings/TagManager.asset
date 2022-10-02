@@ -9,6 +9,8 @@ TagManager:
   - LightSensor
   - Module
   - Obstacle
+  - LightSensorArray
+  - SolarPanel
   layers:
   - Default
   - TransparentFX

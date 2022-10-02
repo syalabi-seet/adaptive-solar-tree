@@ -36,7 +36,7 @@ public class SpawnManager : MonoBehaviour
         // Get random prefab spawn point
         spawnPos = origin + new Vector3(
             Random.Range(-range, range), 
-            Random.Range(1, range), 
+            Random.Range(1.5f, range), 
             Random.Range(-range, range));
 
         // Get random prefab index

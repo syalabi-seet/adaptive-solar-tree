@@ -4,48 +4,30 @@ using UnityEngine;
 
 namespace Module
 {
-    // [ExecuteInEditMode]
-    [AddComponentMenu("ML Agents/Light Sensor Array")]
+    [AddComponentMenu("ML Agents/Light Sensor Array Component")]
     public class LightSensorArray : MonoBehaviour
     {
-        private int vectorLength = 5;
-        public GameObject lightSource;
-        public GameObject[] lightSensors;   
-        public bool[] sensorStates;    
+        private LightSensorComponent[] lightSensors;
+        public bool[] lightSensorStates;
+        int numberOfSensors;
 
         void Awake()
+            {
+                lightSensors = gameObject.GetComponentsInChildren<LightSensorComponent>();
+                numberOfSensors = lightSensors.Length;
+            }
+
+        public void Update()
         {
-            lightSource = GameObject.FindWithTag("LightSource");
-            lightSensors = GameObject.FindGameObjectsWithTag("LightSensor");
-            sensorStates = new bool[lightSensors.Length];
+            for (int i = 0; i < numberOfSensors; i++)
+            {
+                lightSensorStates[i] = lightSensors[i].sensorState;
+            }
         }
 
-        void Update()
+        public void FixedUpdate()
         {
-            Vector3 direction = (
-                transform.rotation *
-                lightSource.transform.rotation *
-                Vector3.back *
-                vectorLength);
-
-            int i = 0;
-            foreach (GameObject lightSensor in lightSensors)
-            {
-                Vector3 origin = lightSensor.transform.position;
-
-                // Cast ray
-                bool rayOutput = Physics.Raycast(origin, direction);
-
-                if (rayOutput)
-                {
-                    Debug.DrawRay(origin, direction, Color.red);
-                    sensorStates[i] = true;
-                } else
-                {
-                    Debug.DrawRay(origin, direction, Color.green);
-                }
-                i++;                    
-            }
+            lightSensorStates = new bool[numberOfSensors];
         }
     }
 }

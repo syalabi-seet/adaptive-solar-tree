@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,12 +10,6 @@ namespace Module
 {
     public class ModuleController : Agent
     {
-        public bool[] lightSensorStates;
-
-        [HideInInspector]
-        public List<GameObject> lightSensors;
-
-        int numberOfSensors;
         float m_latitude;
         float m_longitude;
         float m_elevation;
@@ -35,43 +28,37 @@ namespace Module
             sunController = lightSource.GetComponent<SunController>();
             m_latitude = transform.position.x;
             m_elevation = transform.position.y;
-            m_longitude = transform.position.z;   
-
-            CollateLightSensors();      
-        }
-
-        void CollateLightSensors()
-        {
-            numberOfSensors = 0;
-            GameObject[] children = GameObject.FindGameObjectsWithTag("LightSensor");
-            foreach (GameObject child in children)
-            {
-                if (child.transform.parent == this.transform)
-                {
-                    lightSensors.Add(child);
-                    numberOfSensors++;
-                }
-            }
-            lightSensorStates = new bool[numberOfSensors]; 
+            m_longitude = transform.position.z;
         }
 
         public void Start()
         {
-            
+            float positionRange = 1.0f;
+            float rotationRange = 30.0f;
+
+            Vector3 originalPosition = gameObject.transform.position;
+
+            Vector3 newPosition = originalPosition + new Vector3(
+                Random.Range(-positionRange, positionRange), 
+                Random.Range(0.0f, 1.0f),
+                Random.Range(-positionRange, positionRange));
+
+            gameObject.transform.position = newPosition;
+
+            Quaternion newRotation = Quaternion.Euler(
+                Random.Range(-rotationRange, rotationRange),
+                Random.Range(-rotationRange, rotationRange),
+                Random.Range(-rotationRange, rotationRange));
+
+            gameObject.transform.rotation = newRotation;
         }
 
         public void Update()
         {
-            for (int i = 0; i < numberOfSensors; i++)
-            {
-                bool sensorState = lightSensors[i].GetComponent<LightSensor>().sensorState;
-                lightSensorStates[i] = sensorState;
-            }
         }
 
         public void FixedUpdate()
         {
-            lightSensorStates = new bool[numberOfSensors];
         }
 
         public override void CollectObservations(VectorSensor sensor)
