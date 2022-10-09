@@ -8,8 +8,10 @@ namespace Module
     public class LightSensorArray : MonoBehaviour
     {
         private LightSensorComponent[] lightSensors;
-        public bool[] lightSensorStates;
-        int numberOfSensors;
+        public bool[] sensorStates;
+
+        [HideInInspector]
+        public int numberOfSensors;
 
         void Awake()
             {
@@ -21,13 +23,13 @@ namespace Module
         {
             for (int i = 0; i < numberOfSensors; i++)
             {
-                lightSensorStates[i] = lightSensors[i].sensorState;
+                sensorStates[i] = lightSensors[i].sensorState;
             }
         }
 
         public void FixedUpdate()
         {
-            lightSensorStates = new bool[numberOfSensors];
+            sensorStates = new bool[numberOfSensors];
         }
     }
 }
