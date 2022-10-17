@@ -33,11 +33,9 @@ namespace Module
         public DateTime time;
         new Light light;
 
-        [SerializeField]
-        float timeSpeed = 10;
+        public float timeSpeed;
 
-        [SerializeField]
-        int frameSteps = 1;
+        public int frameSteps;
         int frameStep;
 
         DateTime date;
@@ -137,9 +135,21 @@ namespace Module
         private void Start()
         {
             light = GetComponent<Light>();
-            SetLocation();
-            SetDate();
             // GenerateSolarData();
+        }
+
+        public void SetSun(bool isRandomized)
+        {
+            if (isRandomized)
+            {
+                random = true;
+            } else
+            {
+                random = false;
+            }
+
+            SetLocation();
+            SetDate();      
         }
 
         private void Update()

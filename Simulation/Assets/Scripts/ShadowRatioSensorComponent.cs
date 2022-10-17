@@ -11,9 +11,7 @@ namespace Module
         [SerializeField]
         Camera moduleCamera;
 
-        [SerializeField]
-        RenderTexture renderTexture;
-
+        private RenderTexture renderTexture;
         private Texture2D texture2D;
         private Rect rect;
         private Rect cropRect;
@@ -23,6 +21,10 @@ namespace Module
         
         void Awake()
         {   
+            // Assign new render texture to camera
+            renderTexture = new RenderTexture(128, 128, 16);
+            moduleCamera.targetTexture = renderTexture;
+
             // Get initial render texture rectangle
             int initialWidth = renderTexture.width;
             int initialHeight = renderTexture.height;
@@ -33,7 +35,7 @@ namespace Module
             int cropWidth = moduleCamera.pixelWidth;
             int cropHeight = moduleCamera.pixelHeight;
             totalPixels = cropWidth * cropHeight;
-            cropRect = new Rect(0, 0, cropWidth, cropHeight);
+            cropRect = new Rect(0, 0, cropWidth, cropHeight);            
         }
 
         int ConvertGrayscale(Color32 pixel)
@@ -109,8 +111,8 @@ namespace Module
             // Compute shadow ratio from cropped texture
             ComputeShadowRatio(croppedTexture);
 
-            // Save cropped texture to jpeg files
-            SaveImage(croppedTexture);
+            // // Save cropped texture to jpeg files
+            // SaveImage(croppedTexture);
         }
     }
 }
