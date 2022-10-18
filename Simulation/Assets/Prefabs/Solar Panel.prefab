@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 68439396500548798}
   - component: {fileID: 68439396500548799}
   - component: {fileID: 68439396500548795}
+  - component: {fileID: 7437412899905938837}
   m_Layer: 0
   m_Name: Solar Panel
   m_TagString: SolarPanel
@@ -113,6 +114,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moduleCamera: {fileID: 68439396695919390}
   shadowRatio: 0
+--- !u!114 &7437412899905938837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68439396500548768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91f76836acffad44ea1cfb7c9980e8bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightSource: {fileID: 0}
+  incidenceAngle: 0
 --- !u!1 &68439396695919361
 GameObject:
   m_ObjectHideFlags: 0

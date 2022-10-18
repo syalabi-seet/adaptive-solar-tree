@@ -65,25 +65,22 @@ namespace Module
                     longitude = float.Parse(countryData[2]);
                 }     
 
-                latitude += UnityEngine.Random.Range(-1.0f, 1.0f);
-                longitude += UnityEngine.Random.Range(-1.0f, 1.0f);   
+                latitude += UnityEngine.Random.Range(-0.5f, 0.5f);
+                longitude += UnityEngine.Random.Range(-0.5f, 0.5f);   
             }
         }
 
         private void SetDate()
         {
-            if (random == true)
+            year = UnityEngine.Random.Range(2022, 2025);
+            month = UnityEngine.Random.Range(1, 12);
+            if (month == 2)
             {
-                year = UnityEngine.Random.Range(2022, 2025);
-                month = UnityEngine.Random.Range(1, 12);
-                if (month == 2)
-                {
-                    day = UnityEngine.Random.Range(0, 29);
-                } else
-                {
-                    day = UnityEngine.Random.Range(0, 32);
-                }                    
-            }
+                day = UnityEngine.Random.Range(0, 29);
+            } else
+            {
+                day = UnityEngine.Random.Range(0, 32);
+            }                    
 
             try
             {

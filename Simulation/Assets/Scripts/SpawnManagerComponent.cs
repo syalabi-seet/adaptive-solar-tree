@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Module
 {
-    [AddComponentMenu("ML Agents/Spawn Manager")]
-    public class SpawnManager : MonoBehaviour
+    [AddComponentMenu("ML Agents/Spawn Manager Component")]
+    public class SpawnManagerComponent : MonoBehaviour
     {
         public GameObject[] obstaclePrefabs;
 
