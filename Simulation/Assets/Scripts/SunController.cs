@@ -41,6 +41,8 @@ namespace Module
         DateTime date;
         DateTime[] dateRange;
 
+        public double solarAltitude;
+        public double solarAzimuth;
 
         private void SetLocation()
         {
@@ -151,7 +153,7 @@ namespace Module
 
         private void Update()
         {
-            time = time.AddSeconds(60 * timeSpeed * Time.deltaTime);
+            time = time.AddSeconds(1 * timeSpeed * Time.deltaTime);
             if (frameStep==0) 
             {
                 SetPosition();
@@ -161,10 +163,8 @@ namespace Module
 
         private void SetPosition()
         {
-            double alt;
-            double azi;
-            SunPosition.CalculateSunPosition(time, (double)latitude, (double)longitude, out azi, out alt);
-            Vector3 angles = new Vector3((float)alt, (float)azi, 0);                                      
+            SunPosition.CalculateSunPosition(time, (double)latitude, (double)longitude, out solarAzimuth, out solarAltitude);
+            Vector3 angles = new Vector3((float)solarAltitude, (float)solarAzimuth, 0);                                      
             transform.localRotation = Quaternion.Euler(angles);
             light.intensity = Mathf.InverseLerp(-12, 0, angles.x);
         }

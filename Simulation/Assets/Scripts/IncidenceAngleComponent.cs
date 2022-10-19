@@ -9,25 +9,43 @@ namespace Module
         private int vectorLength = 6;
         public GameObject lightSource;
         public float incidenceAngle;
+        ShadowRatioSensorComponent shadowRatioSensor;
+        ModuleAgent moduleAgent;
 
         void Start()
         {
-            lightSource = GameObject.FindWithTag("LightSource");
+            shadowRatioSensor = gameObject.GetComponent<ShadowRatioSensorComponent>();
+            moduleAgent = gameObject.GetComponentInParent<ModuleAgent>();
         }
 
         void Update()
         {
             Vector3 direction = (
                 transform.localRotation *
-                lightSource.transform.rotation *
+                lightSource.transform.localRotation *
                 Vector3.back *
                 vectorLength);
 
             Vector3 origin = transform.position;
+            Vector3 normal = transform.up * vectorLength;
+            incidenceAngle = Vector3.Angle(normal, direction);
+            float shadowRatio = shadowRatioSensor.shadowRatio;
+            float incidenceAngleLimit = moduleAgent.incidenceAngleLimit;
+            float shadowRatioLimit = moduleAgent.shadowRatioLimit;
 
-            incidenceAngle = Vector3.Angle(direction, origin);
-
-            Debug.DrawRay(origin, direction, Color.yellow);
+            if (direction.y > 0)
+            {
+                if (incidenceAngle < incidenceAngleLimit && shadowRatio < shadowRatioLimit)
+                {
+                    Debug.DrawRay(origin, direction, Color.green);
+                } else if (shadowRatio < shadowRatioLimit)
+                {
+                    Debug.DrawRay(origin, direction, Color.yellow);
+                } else
+                {
+                    Debug.DrawRay(origin, direction, Color.red);
+                }
+            }     
         }
     }
 }

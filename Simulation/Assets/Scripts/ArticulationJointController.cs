@@ -8,7 +8,8 @@ namespace Module
     public class ArticulationJointController : MonoBehaviour
     {
         ArticulationBody articulationBody;
-        public float rotationChange;
+        public float forceMultiplier;
+        public float rotationChange;   
 
         void Start()
         {

@@ -11,6 +11,15 @@ using Unity.MLAgents.Policies;
 
 namespace Module
 {
+    public enum trackingFrequencies 
+    {
+        Minutely = 0,
+        Halfhourly = 1,
+        Bihourly = 2,
+        Quadhourly = 3,
+        Daily = 4
+    };
+
     [AddComponentMenu("ML Agents/Module Agent")]
     public class ModuleAgent : Agent
     {
@@ -27,7 +36,6 @@ namespace Module
         LightSensorComponent[] lightSensorArray;
         ShadowRatioSensorComponent[] shadowRatioArray;
         ArticulationJointController jointController;
-        ModuleController moduleController;
         BehaviorParameters behaviorParams;
         IncidenceAngleComponent incidenceAngleComponent;
         
@@ -42,10 +50,23 @@ namespace Module
         public bool isController;
         public bool isRandomized = true;
 
+        [Range(0, 4)]
+        public int trackingFrequency;
+
         public float timeSpeed = 50f;
         public int frameSteps = 1;
 
-        ModuleController.Joint[] joints;
+        public float shadowRatioLimit = 0.2f;
+        public float incidenceAngleLimit = 5f;        
+
+        [System.Serializable]
+        public struct Joint
+        {
+            public string inputAxis;
+            public GameObject robotPart;
+            public float forceMultiplier;
+        }
+        public Joint[] joints;
 
         float incidenceAngle;
 
@@ -55,8 +76,6 @@ namespace Module
             lightSource = GameObject.FindWithTag("LightSource");
             sunController = lightSource.GetComponent<SunController>();
             shadowRatioArray = gameObject.GetComponentsInChildren<ShadowRatioSensorComponent>();
-            moduleController = gameObject.GetComponent<ModuleController>();
-            joints = moduleController.joints;
             behaviorParams = gameObject.GetComponent<BehaviorParameters>();
             incidenceAngleComponent = gameObject.GetComponentInChildren<IncidenceAngleComponent>();
 
@@ -101,20 +120,26 @@ namespace Module
             sensor.AddObservation(joints[4].robotPart.transform.rotation.y);
         }
 
+        // void Update()
+        // {
+        //     // TODO: Adjust request decision frequency
+        //     RequestDecision();
+        // }
+
         public override void OnActionReceived(ActionBuffers actionBuffers)
         {
             // Speed up outside sun hours periods
             if (solarAltitude < 0f)
             {
-                sunController.timeSpeed = timeSpeed * 10f;
+                sunController.timeSpeed = timeSpeed * 10000f;
             } else
             {
                 sunController.timeSpeed = timeSpeed;
                 // Move module
-                var actions = actionBuffers.ContinuousActions;
+                var actions = actionBuffers.DiscreteActions;
                 for (int i = 0; i < joints.Length; i++)
                 {                     
-                    jointController = joints[i].robotPart.GetComponent<ArticulationJointController>();                
+                    jointController = joints[i].robotPart.GetComponent<ArticulationJointController>();        
                     jointController.RotateTo(actions[i]);             
                 }     
             }          
@@ -125,7 +150,14 @@ namespace Module
             if (deltaHour == 23)
             {
                 EndEpisode();
-            } 
+            }
+
+            // TODO: Add end episode when collision occurs
+        }
+
+        void OnCollisionEnter(Collision collision)
+        {
+            print(collision.gameObject);
         }
 
         public override void OnEpisodeBegin()
@@ -139,18 +171,73 @@ namespace Module
 
             startHour = sunController.time.Hour;
 
-            moduleController.ResetOrientation();
+            ResetOrientation();
             
             spawnManager.SpawnObstacles();                  
         }
 
-        public override void Heuristic(in ActionBuffers actionsOut)
+        void ResetOrientation()
         {
-            var continuousActionsOut = actionsOut.ContinuousActions;
-
             for (int i = 0; i < joints.Length; i++)
             {
-                continuousActionsOut[i] = Input.GetAxis(joints[i].inputAxis);
+                jointController = joints[i].robotPart.GetComponent<ArticulationJointController>();
+                jointController.forceMultiplier = joints[i].forceMultiplier;
+                jointController.Reset();            
+            }
+        }
+
+        public override void Heuristic(in ActionBuffers actionsOut)
+        {
+            var discreteActionsOut = actionsOut.DiscreteActions;
+
+            // Joint1
+            if (Input.GetKey(KeyCode.Q))
+            {
+                discreteActionsOut[0] = 1;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                discreteActionsOut[0] = -1;
+            }
+
+            // Joint2
+            if (Input.GetKey(KeyCode.W))
+            {
+                discreteActionsOut[1] = 1;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                discreteActionsOut[1] = -1;
+            }
+            
+            // Joint3
+            if (Input.GetKey(KeyCode.E))
+            {
+                discreteActionsOut[2] = 1;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                discreteActionsOut[2] = -1;
+            }
+
+            // Joint4
+            if (Input.GetKey(KeyCode.R))
+            {
+                discreteActionsOut[3] = 1;
+            }
+            if (Input.GetKey(KeyCode.F))
+            {
+                discreteActionsOut[3] = -1;
+            }
+
+            // Joint5
+            if (Input.GetKey(KeyCode.T))
+            {
+                discreteActionsOut[4] = 1;
+            }
+            if (Input.GetKey(KeyCode.G))
+            {
+                discreteActionsOut[4] = -1;
             }
         }
     }
