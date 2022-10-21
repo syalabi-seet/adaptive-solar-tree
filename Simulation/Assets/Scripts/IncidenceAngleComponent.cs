@@ -10,12 +10,21 @@ namespace Module
         public GameObject lightSource;
         public float incidenceAngle;
         ShadowRatioSensorComponent shadowRatioSensor;
-        ModuleAgent moduleAgent;
+        EnvironmentController environmentController;
+        AgentController agentController;
+        float incidenceAngleLimit;
+        float shadowRatioLimit;
+        float shadowRatio;
 
         void Start()
         {
             shadowRatioSensor = gameObject.GetComponent<ShadowRatioSensorComponent>();
-            moduleAgent = gameObject.GetComponentInParent<ModuleAgent>();
+            agentController = gameObject.GetComponentInParent<AgentController>();
+            environmentController = GameObject.FindWithTag("GameController").GetComponent<EnvironmentController>();
+
+            incidenceAngleLimit = environmentController.incidenceAngleLimit;
+            shadowRatioLimit = environmentController.shadowRatioLimit;
+            shadowRatio = shadowRatioSensor.shadowRatio;
         }
 
         void Update()
@@ -29,15 +38,13 @@ namespace Module
             Vector3 origin = transform.position;
             Vector3 normal = transform.up * vectorLength;
             incidenceAngle = Vector3.Angle(normal, direction);
-            float shadowRatio = shadowRatioSensor.shadowRatio;
-            float incidenceAngleLimit = moduleAgent.incidenceAngleLimit;
-            float shadowRatioLimit = moduleAgent.shadowRatioLimit;
 
             if (direction.y > 0)
             {
                 if (incidenceAngle < incidenceAngleLimit && shadowRatio < shadowRatioLimit)
                 {
-                    Debug.DrawRay(origin, direction, Color.green);
+                    Debug.DrawRay(origin, direction, Color.green);    
+                    agentController.AddReward(0.01f);           
                 } else if (shadowRatio < shadowRatioLimit)
                 {
                     Debug.DrawRay(origin, direction, Color.yellow);
@@ -45,7 +52,10 @@ namespace Module
                 {
                     Debug.DrawRay(origin, direction, Color.red);
                 }
-            }     
+            } else
+            {
+                Debug.DrawRay(origin, direction, Color.red);
+            }
         }
     }
 }

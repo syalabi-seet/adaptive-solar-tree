@@ -33,10 +33,7 @@ namespace Module
         public DateTime time;
         new Light light;
 
-        public float timeSpeed;
-
-        public int frameSteps;
-        int frameStep;
+        public float timeScale;
 
         DateTime date;
         DateTime[] dateRange;
@@ -76,24 +73,8 @@ namespace Module
         {
             year = UnityEngine.Random.Range(2022, 2025);
             month = UnityEngine.Random.Range(1, 12);
-            if (month == 2)
-            {
-                day = UnityEngine.Random.Range(0, 29);
-            } else
-            {
-                day = UnityEngine.Random.Range(0, 32);
-            }                    
-
-            try
-            {
-                time = new DateTime(year, month, day, hour, minute, 0);  
-            }
-            catch (System.Exception)
-            {
-                Debug.Log("Retrying...");
-                day = 30;
-                time = new DateTime(year, month, day, hour, minute, 0);  
-            }       
+            day = UnityEngine.Random.Range(1, 29);
+            time = new DateTime(year, month, day, hour, minute, 0);             
         }
 
         private void GenerateSolarData()
@@ -123,12 +104,8 @@ namespace Module
             Debug.Log("Solar geometric data generated");
         }
 
-        private void SetUpdateSteps(int i) {
-            frameSteps = i;
-        }
-
-        private void SetTimeSpeed(float speed) {
-            timeSpeed = speed;
+        private void SetTimeScale(float speed) {
+            timeScale = speed;
         }
 
         private void Start()
@@ -153,12 +130,8 @@ namespace Module
 
         private void Update()
         {
-            time = time.AddSeconds(1 * timeSpeed * Time.deltaTime);
-            if (frameStep==0) 
-            {
-                SetPosition();
-            }
-            frameStep = (frameStep + 1) % frameSteps;
+            time = time.AddSeconds(1 * timeScale * Time.deltaTime);
+            SetPosition();
         }
 
         private void SetPosition()

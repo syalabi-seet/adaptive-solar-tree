@@ -4,40 +4,43 @@ using UnityEngine;
 
 namespace Module
 {
-    [AddComponentMenu("ML Agents/Articulation Joint Controller")]
-    public class ArticulationJointController : MonoBehaviour
+    public class JointController : MonoBehaviour
     {
         ArticulationBody articulationBody;
-        public float forceMultiplier;
-        public float rotationChange;   
+        AgentController agentController;
 
+        // Start is called before the first frame update
         void Start()
         {
             articulationBody = GetComponent<ArticulationBody>();
+            agentController = gameObject.GetComponentInParent<AgentController>();
         }
-
-        float CurrentPrimaryRotation()
+        
+        float CurrentRotation()
         {
             float currentRotationRads = articulationBody.jointPosition[0];
             float currentRotation = Mathf.Rad2Deg * currentRotationRads;
             return currentRotation;
         }
 
-        public void RotateTo(float inputVal)
+        public void RotateTo(float targetRotation)
         {
-            float currentRotation = CurrentPrimaryRotation();
             var drive = articulationBody.xDrive;
-            rotationChange = inputVal;
-            float targetRotation = Mathf.Round(currentRotation + rotationChange);
-            drive.target = targetRotation;       
-            articulationBody.xDrive = drive;       
+            drive.target = CurrentRotation() + (targetRotation * Time.fixedDeltaTime);
+            articulationBody.xDrive = drive;
         }
 
         public void Reset()
         {
             var drive = articulationBody.xDrive;
             drive.target = 0f;
-            articulationBody.xDrive = drive; 
+            articulationBody.xDrive = drive;
+        }
+
+        void OnCollisionEnter(Collision collision)
+        {
+            agentController.EndEpisode();
+            agentController.AddReward(-5f);
         }
     }
 }
