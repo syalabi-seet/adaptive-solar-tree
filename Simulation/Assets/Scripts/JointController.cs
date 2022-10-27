@@ -4,16 +4,19 @@ using UnityEngine;
 
 namespace Module
 {
+    [AddComponentMenu("ML Agents/Joint Controller")]
     public class JointController : MonoBehaviour
     {
         ArticulationBody articulationBody;
         AgentController agentController;
+        ArticulationReducedSpace originalPosition;
 
         // Start is called before the first frame update
         void Start()
         {
             articulationBody = GetComponent<ArticulationBody>();
             agentController = gameObject.GetComponentInParent<AgentController>();
+            originalPosition = articulationBody.jointPosition;
         }
         
         float CurrentRotation()
@@ -30,17 +33,17 @@ namespace Module
             articulationBody.xDrive = drive;
         }
 
-        public void Reset()
-        {
-            var drive = articulationBody.xDrive;
-            drive.target = 0f;
-            articulationBody.xDrive = drive;
+        public void ResetJoint()
+        {       
+            
         }
 
         void OnCollisionEnter(Collision collision)
         {
-            agentController.EndEpisode();
-            agentController.AddReward(-5f);
+            agentController.SetReward(-1f);  
+            agentController.EndEpisode();                
+            print(collision.collider); 
+            print(agentController.StepCount);                 
         }
     }
 }

@@ -12,11 +12,11 @@ namespace Module
         private Vector3 originalPosition;
         private Vector3 spawnPosition;
         private Quaternion spawnRotation;
-        private int numObstacles;
-        private float hRange = 1.5f;
-        private float vRange = 2.5f;
+        private int numObstacles = 20;
+        private float hRange;
+        private float vRange;
         private float minSize = 0.5f;
-        private float maxSize = 1.0f;
+        private float maxSize = 0.75f;
         private float tiltAngle = 45.0f;
 
         // Start is called before the first frame update
@@ -27,7 +27,7 @@ namespace Module
 
         public void SpawnObstacles()
         {
-            numObstacles = Random.Range(5, 10);
+            DestroyObstacles();
             for (int i = 0; i < numObstacles; i++)
             {
                 SpawnObstacle();
@@ -36,11 +36,11 @@ namespace Module
 
         void SpawnObstacle()
         {
-            // Get random prefab spawn point
-            spawnPosition = originalPosition + new Vector3(
-                Random.Range(-hRange, hRange), 
-                Random.Range(3.5f, 3.5f + vRange), 
-                Random.Range(-hRange, hRange));
+            float radius = Random.Range(3.5f, 4.5f);
+            spawnPosition.x = Random.Range(-1f, 1f);
+            spawnPosition.y = Random.Range(0.5f, 1f);
+            spawnPosition.z = Random.Range(-1f, 1f);
+            spawnPosition = spawnPosition.normalized * radius;
 
             spawnRotation = Quaternion.Euler(new Vector3(
                 Random.Range(-tiltAngle, tiltAngle),

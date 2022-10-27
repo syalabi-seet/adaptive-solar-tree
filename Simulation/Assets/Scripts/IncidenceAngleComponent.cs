@@ -6,15 +6,24 @@ namespace Module
 {
     public class IncidenceAngleComponent : MonoBehaviour
     {
-        private int vectorLength = 6;
+        [SerializeField]
         public GameObject lightSource;
         public float incidenceAngle;
+
+        private int vectorLength = 6;
         ShadowRatioSensorComponent shadowRatioSensor;
         EnvironmentController environmentController;
         AgentController agentController;
         float incidenceAngleLimit;
         float shadowRatioLimit;
         float shadowRatio;
+
+        Vector3 direction;
+
+        Vector3 origin;
+        Vector3 normal;
+
+        Color color;
 
         void Start()
         {
@@ -24,38 +33,39 @@ namespace Module
 
             incidenceAngleLimit = environmentController.incidenceAngleLimit;
             shadowRatioLimit = environmentController.shadowRatioLimit;
-            shadowRatio = shadowRatioSensor.shadowRatio;
         }
 
         void Update()
         {
-            Vector3 direction = (
-                transform.localRotation *
+            direction = (
                 lightSource.transform.localRotation *
                 Vector3.back *
                 vectorLength);
 
-            Vector3 origin = transform.position;
-            Vector3 normal = transform.up * vectorLength;
+            origin = transform.position;
+            normal = transform.up * vectorLength;
             incidenceAngle = Vector3.Angle(normal, direction);
+            shadowRatio = shadowRatioSensor.shadowRatio;
 
             if (direction.y > 0)
             {
                 if (incidenceAngle < incidenceAngleLimit && shadowRatio < shadowRatioLimit)
                 {
-                    Debug.DrawRay(origin, direction, Color.green);    
-                    agentController.AddReward(0.01f);           
-                } else if (shadowRatio < shadowRatioLimit)
+                    color = Color.green;
+                } 
+                else if (shadowRatio < shadowRatioLimit)
                 {
-                    Debug.DrawRay(origin, direction, Color.yellow);
-                } else
+                    color = Color.yellow;
+                } 
+                else
                 {
-                    Debug.DrawRay(origin, direction, Color.red);
+                    color = Color.red;
                 }
             } else
             {
-                Debug.DrawRay(origin, direction, Color.red);
+                color = Color.red; 
             }
+            Debug.DrawRay(origin, direction, color);
         }
     }
 }

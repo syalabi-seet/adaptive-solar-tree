@@ -5,42 +5,46 @@ using Unity.MLAgents.Actuators;
 
 namespace Module
 {
+    [AddComponentMenu("ML Agents/Module Controller")]
     public class ModuleController : MonoBehaviour
     {
-        [SerializeField]
-        public GameObject[] joints;
+        [System.Serializable]
+        public struct Joint
+        {
+            public string inputAxis;
+            public GameObject robotPart;
+            public float jointSpeed;
+        }
+        public Joint[] joints;
 
         [SerializeField]
         public GameObject[] solarPanels;
 
         AgentController agentController;
 
-        float upperLimit = 180f;
-
         void Start()
         {
             agentController = GetComponent<AgentController>();
         }
 
-        public void SetOrientation(ActionBuffers actionBuffers)
+        public void SetJoints(ActionBuffers actionBuffers)
         {
             var actions = actionBuffers.ContinuousActions;
 
             for (int i = 0; i < joints.Length; i++)
             {
-                JointController jointController = joints[i].GetComponent<JointController>();
-                float actionVal = upperLimit * actions[i];
+                JointController jointController = joints[i].robotPart.GetComponent<JointController>();
+                float actionVal = actions[i] * joints[i].jointSpeed;
                 jointController.RotateTo(actionVal);
-                agentController.AddReward(-0.01f * actionVal);
             }
         }
 
-        public void ResetOrientation()
+        public void ResetJoints()
         {
             for (int i = 0; i < joints.Length; i++)
             {
-                JointController jointController = joints[i].GetComponent<JointController>();
-                jointController.Reset();
+                JointController jointController = joints[i].robotPart.GetComponent<JointController>();
+                jointController.ResetJoint();
             }
         }
     }

@@ -14,106 +14,91 @@ namespace Module
     [AddComponentMenu("ML Agents/Agent Controller")]
     public class AgentController : Agent
     {
-        float m_latitude;
-        float m_longitude;
-        float m_elevation;
-        double solarAltitude;
-        double solarAzimuth;
-        int startHour;
-        int endHour;
-        int currentDeltaHour;
-        EnvironmentController environmentController;
+        [SerializeField]
+        public EnvironmentController environmentController;
         
         [SerializeField]
-        public GameObject lightSource;
+        public SunController sunController;
 
-        SunController sunController;
+        [SerializeField]
+        public SpawnManagerController spawnManager;
+
         ModuleController moduleController;
-        SpawnManagerController spawnManagerController;
-        IncidenceAngleComponent incidenceAngleComponent;
-        GameObject[] joints;
+        ModuleController.Joint[] joints;
         GameObject[] solarPanels;
 
-        public GameObject spawnManager;
-        float timeScale; 
+        float incidenceAngleLimit;
+        float shadowRatioLimit;
 
         public override void Initialize()
         {
-            // Environment
-            sunController = lightSource.GetComponent<SunController>();
-            moduleController = gameObject.GetComponent<ModuleController>();
-            spawnManagerController = spawnManager.GetComponent<SpawnManagerController>();
-            environmentController = GameObject.FindWithTag("GameController").GetComponent<EnvironmentController>();
+            moduleController = GetComponent<ModuleController>();
             joints = moduleController.joints;
             solarPanels = moduleController.solarPanels;
-
-            m_latitude = transform.position.x;
-            m_elevation = transform.position.y;
-            m_longitude = transform.position.z;
+            incidenceAngleLimit = environmentController.incidenceAngleLimit;
+            shadowRatioLimit = environmentController.shadowRatioLimit;
         }
 
         public override void CollectObservations(VectorSensor sensor)
         {
-            // Add panel states (12)
-            foreach (GameObject solarPanel in solarPanels)
+            // Add panel states (6)
+            for (int i = 0; i < solarPanels.Length; i++)
             {
                 // Add shadow ratio
-                float shadowRatio = solarPanel.GetComponent<ShadowRatioSensorComponent>().shadowRatio;
+                float shadowRatio = solarPanels[i].GetComponent<ShadowRatioSensorComponent>().shadowRatio;
                 sensor.AddObservation(shadowRatio);
-                
-                // Add incidence angle
-                float incidenceAngle = solarPanel.GetComponent<IncidenceAngleComponent>().incidenceAngle;
-                sensor.AddObservation(incidenceAngle);
             }
-            
-            // Add solar angles (2)
-            DateTime m_time = sunController.time;
-            float latitude = sunController.latitude + m_latitude;
-            float longitude = sunController.longitude + m_longitude;
-            SunPosition.CalculateSunPosition(
-                m_time, (double)latitude, (double)longitude, 
-                out solarAzimuth, out solarAltitude);
-            sensor.AddObservation(
-                Mathf.InverseLerp(-180f, 180f, (float)solarAzimuth));
-            sensor.AddObservation(
-                Mathf.InverseLerp(0f, 360f, (float)solarAltitude));
 
-            // TODO: Add current motor angle state (5)
-            foreach (GameObject joint in joints)
+            // Add location coordinates (2)
+            sensor.AddObservation(
+                Mathf.InverseLerp(-90f, 90f, (float)environmentController.latitude));
+            sensor.AddObservation(
+                Mathf.InverseLerp(-180f, 180f, (float)environmentController.longitude));  
+            
+            // Add solar angles (2)                
+            sensor.AddObservation(
+                Mathf.InverseLerp(0f, 360f, (float)sunController.solarAzimuth));
+            sensor.AddObservation(
+                Mathf.InverseLerp(-90f, 90f, (float)sunController.solarAltitude));
+
+            // Add current motor angle state (5)
+            for (int i = 0; i < joints.Length; i++)
             {
-                float targetRotation = joint.GetComponent<ArticulationBody>().xDrive.target;
+                float targetRotation = joints[i].robotPart.GetComponent<ArticulationBody>().xDrive.target;
+                targetRotation = Mathf.InverseLerp(-180f, 180f, targetRotation);
                 sensor.AddObservation(targetRotation);
             }         
         }
 
         public override void OnActionReceived(ActionBuffers actionBuffers)
         {
-            // Terminal state
-            endHour = sunController.time.Hour;
-            int deltaHour = endHour - startHour;
-            if (deltaHour == 23)
+            int count = 0;
+            for (int i = 0; i < solarPanels.Length; i++)
+            {
+                float shadowRatio = solarPanels[i].GetComponent<ShadowRatioSensorComponent>().shadowRatio;
+                float incidenceAngle = solarPanels[i].GetComponent<IncidenceAngleComponent>().incidenceAngle;
+        
+                if (incidenceAngle < incidenceAngleLimit && shadowRatio < shadowRatioLimit)
+                {
+                    count++;
+                }
+            }
+
+            if (count == solarPanels.Length)
             {
                 EndEpisode();
             }
-
-            // Speed up outside sun hours
-            if (solarAltitude < 0f)
+            else
             {
-                sunController.timeScale = 100000f;
-            } else 
-            {
-                sunController.timeScale = environmentController.timeScale;
-                moduleController.SetOrientation(actionBuffers);         
+                SetReward(-0.001f);  
+                moduleController.SetJoints(actionBuffers);           
             }
         }
 
         public override void OnEpisodeBegin()
         {
-            spawnManagerController.DestroyObstacles();
-            environmentController.ResetEnvironment();
-            startHour = sunController.time.Hour;
-            moduleController.ResetOrientation();            
-            spawnManagerController.SpawnObstacles();                  
+            environmentController.Reset();            
+            spawnManager.SpawnObstacles();           
         }
 
         public override void Heuristic(in ActionBuffers actionsOut)

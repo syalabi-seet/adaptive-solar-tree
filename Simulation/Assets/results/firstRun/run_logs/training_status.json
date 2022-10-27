@@ -1,0 +1,38 @@
+{
+    "Etiolation": {
+        "checkpoints": [
+            {
+                "steps": 50435,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-50435.onnx",
+                "reward": -0.24587273597717285,
+                "creation_time": 1666701154.4288595,
+                "auxillary_file_paths": [
+                    "results\\firstRun\\Etiolation\\Etiolation-50435.pt"
+                ]
+            },
+            {
+                "steps": 151257,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-151257.onnx",
+                "reward": -0.48891668126452714,
+                "creation_time": 1666702020.362792,
+                "auxillary_file_paths": [
+                    "results\\firstRun\\Etiolation\\Etiolation-151257.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 151257,
+            "file_path": "results\\firstRun\\Etiolation.onnx",
+            "reward": -0.48891668126452714,
+            "creation_time": 1666702020.362792,
+            "auxillary_file_paths": [
+                "results\\firstRun\\Etiolation\\Etiolation-151257.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.12.1"
+    }
+}

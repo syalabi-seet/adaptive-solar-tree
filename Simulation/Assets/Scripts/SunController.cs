@@ -7,289 +7,206 @@ using UnityEngine.Serialization;
 
 namespace Module
 {
-    [RequireComponent(typeof(Light)), AddComponentMenu("ML Agents/Sun Controller")]
+    [AddComponentMenu("ML Agents/Sun Controller")]
     public class SunController : MonoBehaviour
-    {
-        public bool random = true;
-        public float latitude = 1.3521f;
-        public float longitude = 103.8198f;
-        public string country = "Singapore";
-
-        [Range(0, 24)]
-        public int hour = 0;
-
-        [Range(0, 60)]
-        public int minute = 0;
-
-        [Range(2022, 2025)]
-        public int year = 2022;
-
-        [Range(1, 12)]
-        public int month = 1;
-
-        [Range(1, 31)]
-        public int day = 1;
-
-        public DateTime time;
-        new Light light;
-
-        public float timeScale;
-
-        DateTime date;
-        DateTime[] dateRange;
-
-        public double solarAltitude;
+    {   
+        double earthMeanRadius = 6371.01;
+        double astronomicalUnit = 149597890.0;
+        public double elapsedJulianDays;
+        public double decimalHours;
+        public double eclipticLongitude;
+        public double eclipticObliquity;
+        public double rightAscension;
+        public double declination;
         public double solarAzimuth;
+        public double solarZenith;
+        public double solarAltitude;
+        public DateTime sunRise;
+        public DateTime sunSet;
 
-        private void SetLocation()
+        double rad = Math.PI / 180.0;
+        double deg = 180.0 / Math.PI;
+
+        public void SetPosition(DateTime dateTime, double latitude, double longitude)
         {
-            // Read csv file
-            string filename = @"Assets/Data/Locations.csv";
-            using(var reader = new StreamReader(filename))
-            {
-                List<string> dataList = new List<string>();
-                while (!reader.EndOfStream)
-                {
-                    string line = reader.ReadLine();
-                    dataList.Add(line);                            
-                }
-                
-                // Get random country
-                if (random == true)
-                {
-                    int id = UnityEngine.Random.Range(1, 241);
-                    var countryData = dataList[id].Split("|");
-                    country = countryData[0];
-                    latitude = float.Parse(countryData[1]);
-                    longitude = float.Parse(countryData[2]);
-                }     
-
-                latitude += UnityEngine.Random.Range(-0.5f, 0.5f);
-                longitude += UnityEngine.Random.Range(-0.5f, 0.5f);   
-            }
-        }
-
-        private void SetDate()
-        {
-            year = UnityEngine.Random.Range(2022, 2025);
-            month = UnityEngine.Random.Range(1, 12);
-            day = UnityEngine.Random.Range(1, 29);
-            time = new DateTime(year, month, day, hour, minute, 0);             
-        }
-
-        private void GenerateSolarData()
-        {
-            string filename = @"Assets/Data/SolarGeometricData.csv";
-            StreamWriter sw = new StreamWriter(filename, false);
-            sw.WriteLine("timeIndex, solarZenith, solarAzimuth");
-
-            // Loop hour
-            int timeIndex = 0;
-            for (int m_hour = 0; m_hour <= 23; m_hour++)
-            {
-                // Loop minute
-                for (int m_minute = 0; m_minute <= 59; m_minute++)
-                {
-                    DateTime m_time = new DateTime(year, month, day, m_hour, m_minute, 0);      
-                    double m_alt;
-                    double m_azi;
-                    SunPosition.CalculateSunPosition(m_time, (double)latitude, (double)longitude, out m_azi, out m_alt);
-                    double m_zen = 90.0f - m_alt;
-                    string outString = string.Format("{0}, {1}, {2}", timeIndex, m_zen, m_azi);
-                    sw.WriteLine(outString);
-                    timeIndex++;
-                }
-            }
-            sw.Close();
-            Debug.Log("Solar geometric data generated");
-        }
-
-        private void SetTimeScale(float speed) {
-            timeScale = speed;
-        }
-
-        private void Start()
-        {
-            light = GetComponent<Light>();
-            // GenerateSolarData();
-        }
-
-        public void SetSun(bool isRandomized)
-        {
-            if (isRandomized)
-            {
-                random = true;
-            } else
-            {
-                random = false;
-            }
-
-            SetLocation();
-            SetDate();      
-        }
-
-        private void Update()
-        {
-            time = time.AddSeconds(1 * timeScale * Time.deltaTime);
-            SetPosition();
-        }
-
-        private void SetPosition()
-        {
-            SunPosition.CalculateSunPosition(time, (double)latitude, (double)longitude, out solarAzimuth, out solarAltitude);
+            CalculateSunPosition(dateTime, latitude, longitude, out solarAzimuth, out solarZenith);
+            solarAltitude = 90 - solarZenith;
             Vector3 angles = new Vector3((float)solarAltitude, (float)solarAzimuth, 0);                                      
             transform.localRotation = Quaternion.Euler(angles);
-            light.intensity = Mathf.InverseLerp(-12, 0, angles.x);
+            GetComponent<Light>().intensity = Mathf.InverseLerp(-12, 0, angles.x);
         }
 
-        private void OnGUI()
+        private void CalculateSunPosition(
+            DateTime dateTime, double latitude, double longitude,
+            out double solarAzimuth, out double solarZenith)
         {
-            GUI.contentColor = Color.green;
+            // Calculate elapsed julian days
+            CalculateElapsedJulianDay(
+                dateTime, out elapsedJulianDays, out decimalHours);
 
-            // Print world settings on game scene
-            string country_str = String.Concat("Country: ", country);
-            GUI.Label(new Rect(10, 0, 300, 20), country_str);
+            // Calculate ecliptic coordinates
+            CalculateEclipticCoordinates(
+                elapsedJulianDays, 
+                out eclipticLongitude, out eclipticObliquity);
 
-            string location = String.Concat("Coordinates: (",  latitude, ", ", longitude, ")");
-            GUI.Label(new Rect(10, 15, 300, 20), location);
+            // Calculate celestial coordinates
+            CalculateCelestialCoordinates(
+                eclipticLongitude, eclipticObliquity, 
+                out rightAscension, out declination);
 
-            string date = String.Concat("Date/Time: ", time);
-            GUI.Label(new Rect(10, 30, 300, 20), date);
+            // Calculate local coordinates
+            CalculateLocalCoordinates(
+                dateTime, latitude, longitude, elapsedJulianDays, decimalHours,
+                rightAscension, declination, 
+                out solarAzimuth, out solarZenith);            
+        }
+
+        public void CalculateSunHours(
+            DateTime dateTime, double latitude, double longitude,
+            out DateTime sunRise, out DateTime sunSet)
+        {
+            // Calculate elapsed julian days
+            CalculateElapsedJulianDay(
+                dateTime, out elapsedJulianDays, out decimalHours);
+
+            // Calculate ecliptic coordinates
+            CalculateEclipticCoordinates(
+                elapsedJulianDays, 
+                out eclipticLongitude, out eclipticObliquity);
+
+            // Calculate celestial coordinates
+            CalculateCelestialCoordinates(
+                eclipticLongitude, eclipticObliquity, 
+                out rightAscension, out declination);
+
+            // Calculate Hour angle at Sunrise/sunset
+            double fractionalYear = CalculateFractionalYear(dateTime);
+            double equationOfTime = CalculateEquationOfTime(fractionalYear);
+            double hourAngleSunrise = CalculateHourAngleSunrise(latitude, declination);
+ 
+            sunRise = GetSunLimits(
+                dateTime, longitude, hourAngleSunrise, equationOfTime);
+            sunSet = GetSunLimits(
+                dateTime, longitude, -hourAngleSunrise, equationOfTime);  
+        } 
+
+        private void CalculateElapsedJulianDay(
+            DateTime dateTime, out double elapsedJulianDays, 
+            out double decimalHours)
+        {
+            // Calculate time of day in UT decimal hours
+            decimalHours = dateTime.Hour + (dateTime.Minute + dateTime.Second / 60.0) / 60.0;
+
+            // Calculate current Julian Day
+            double Aux = (dateTime.Month - 14.0) / 12.0;
+            double julianDayNumber = (
+                (1461.0 * (dateTime.Year + 4800.0 + Aux)) / 4.0 + 
+                (367.0 * (dateTime.Month - 2.0 - 12.0 * Aux)) / 12.0 -
+                (3.0 * ((dateTime.Year + 4900.0 + Aux) / 100.0)) / 4.0 +
+                dateTime.Day - 32075.0);
+            double julianDate = julianDayNumber - 0.5 + decimalHours / 24.0;
+            elapsedJulianDays = julianDate - 2451545.0;
+        }
+
+        private void CalculateEclipticCoordinates(
+            double elapsedJulianDays, out double eclipticLongitude, 
+            out double eclipticObliquity)
+        {
+            double omega = 2.1429 - 0.0010394594 * elapsedJulianDays;
+            double meanLongitude = 4.8950630 + 0.017202791698 * elapsedJulianDays;
+            double meanAnomaly = 6.2400600 + 0.0172019699 * elapsedJulianDays;
+            eclipticLongitude = (
+                meanLongitude +
+                0.03341607 * Math.Sin(meanAnomaly) +
+                0.00034894 * Math.Sin(2.0 * meanAnomaly) - 
+                0.0001134 - 0.0000203 * Math.Sin(omega));
+            eclipticObliquity = (
+                0.4090928 - 6.2140E-9 * elapsedJulianDays +
+                0.0000396 * Math.Cos(omega));
+        }
+
+        private void CalculateCelestialCoordinates(
+            double eclipticLongitude, double eclipticObliquity,
+            out double rightAscension, out double declination)
+        {
+            double rightAscensionY = Math.Cos(eclipticObliquity) * Math.Sin(eclipticLongitude);
+            double rightAscensionX = Math.Cos(eclipticLongitude);
+            rightAscension = Math.Atan2(rightAscensionY, rightAscensionX);
+            if (rightAscension < 0.0)
+            {
+                rightAscension = rightAscension + Math.PI * 2.0;
+            }
+            declination = Math.Asin(Math.Sin(eclipticObliquity) * Math.Sin(eclipticLongitude));
+        }
+
+        private void CalculateLocalCoordinates(
+            DateTime dateTime, double latitude, double longitude,
+            double elapsedJulianDays, double decimalHours, 
+            double rightAscension, double declination,
+            out double solarAzimuth, out double solarZenith)
+        {
+            double greenwichMeanSideRealTime = (
+                6.6974243242 + 0.0657098283 * elapsedJulianDays + decimalHours);
+            double localMeanSideRealTime = (
+                greenwichMeanSideRealTime * 15.0 + longitude) * rad;
+            double hourAngle = localMeanSideRealTime - rightAscension;
+            solarZenith = Math.Acos(
+                Math.Cos(latitude * rad) * Math.Cos(hourAngle) * Math.Cos(declination)
+                + Math.Sin(declination) * Math.Sin(latitude * rad));
+            double azimuthY = -Math.Sin(hourAngle);
+            double azimuthX = (
+                Math.Tan(declination) * Math.Cos(latitude * rad) -
+                Math.Sin(latitude * rad) * Math.Cos(hourAngle));
+            solarAzimuth = Math.Atan2(azimuthY, azimuthX);
+            if (solarAzimuth < 0.0)
+            {
+                solarAzimuth = solarAzimuth + Math.PI * 2.0;
+            }
+            solarAzimuth = solarAzimuth / rad;
+            double parallaxError = (
+                (earthMeanRadius / astronomicalUnit) * Math.Sin(solarZenith));
+            solarZenith = (solarZenith + parallaxError) / rad;
+        }
+
+        private double CalculateFractionalYear(DateTime dateTime)
+        {
+            return (
+                ((Math.PI * 2) / 365) *
+                (dateTime.DayOfYear - 1 + (dateTime.Hour - 12) / 24));
+        }
+
+        private double CalculateEquationOfTime(double fractionalYear)
+        {
+            return (229.18 * (0.000075 + 
+                0.001868 * Math.Cos(fractionalYear) -
+                0.032077 * Math.Sin(fractionalYear) -
+                0.014615 * Math.Cos(2 * fractionalYear) -
+                0.040849 * Math.Sin(2 * fractionalYear)));
+        }
+
+        private double CalculateHourAngleSunrise(double latitude, double declination)
+        {
+            double latitudeRad = latitude * rad;
+            double zenithRad = 90.833 * rad;
+
+            double hourAngleX = (
+                Math.Cos(zenithRad) /
+                (Math.Cos(latitudeRad) * Math.Cos(declination)));
+            double hourAngleY = (Math.Tan(latitudeRad) * Math.Tan(declination));
+            double hourAngleRad = Math.Acos(hourAngleX - hourAngleY);
+            return hourAngleRad * deg;            
+        }
+
+        private DateTime GetSunLimits(
+            DateTime dateTime, double longitude, double hourAngle, 
+            double equationOfTime)
+        {
+            double sunLimitMinutes = 720 - 4 * (longitude + hourAngle) - equationOfTime;
+            double hours = sunLimitMinutes / 60;
+            double minutes = sunLimitMinutes % 60;
+            DateTime sunDateTime = dateTime.AddHours(hours);
+            sunDateTime = sunDateTime.AddMinutes(minutes);
+            return sunDateTime;
         }
     }
-
-    /*
-     * The following source came from this blog:
-     * http://guideving.blogspot.co.uk/2010/08/sun-position-in-c.html
-     */
-    public static class SunPosition
-    {
-        private const double Deg2Rad = Math.PI / 180.0;
-        private const double Rad2Deg = 180.0 / Math.PI;
-
-        /*! 
-         * \brief Calculates the sun light. 
-         * 
-         * CalcSunPosition calculates the suns "position" based on a 
-         * given date and time in local time, latitude and longitude 
-         * expressed in decimal degrees. It is based on the method 
-         * found here: 
-         * http://www.astro.uio.no/~bgranslo/aares/calculate.html
-         * The calculation is only satisfiably correct for dates in 
-         * the range March 1 1900 to February 28 2100. 
-         * \param dateTime Time and date in local time. 
-         * \param latitude Latitude expressed in decimal degrees. 
-         * \param longitude Longitude expressed in decimal degrees. 
-         */
-        public static void CalculateSunPosition(
-            DateTime dateTime, 
-            double latitude, 
-            double longitude, 
-            out double outAzimuth, 
-            out double outAltitude)
-        {
-            // Convert to UTC  
-            dateTime = dateTime.ToUniversalTime();
-
-            // Number of days from J2000.0.  
-            double julianDate = 367 * dateTime.Year -
-                Math.Floor((7.0 / 4.0) * (dateTime.Year +
-                Math.Floor((dateTime.Month + 9.0) / 12.0))) +
-                Math.Floor((275.0 * dateTime.Month) / 9.0) +
-                dateTime.Day - 730531.5;
-
-            double julianCenturies = julianDate / 36525.0;
-
-            // Sidereal Time  
-            double siderealTimeHours = 6.6974 + 2400.0513 * julianCenturies;
-
-            double siderealTimeUT = siderealTimeHours +
-                (366.2422 / 365.2422) * (double)dateTime.TimeOfDay.TotalHours;
-
-            double siderealTime = siderealTimeUT * 15 + longitude;
-
-            // Refine to number of days (fractional) to specific time.  
-            julianDate += (double)dateTime.TimeOfDay.TotalHours / 24.0;
-            julianCenturies = julianDate / 36525.0;
-
-            // Solar Coordinates  
-            double meanLongitude = CorrectAngle(Deg2Rad *
-                (280.466 + 36000.77 * julianCenturies));
-
-            double meanAnomaly = CorrectAngle(Deg2Rad *
-                (357.529 + 35999.05 * julianCenturies));
-
-            double equationOfCenter = Deg2Rad * ((1.915 - 0.005 * julianCenturies) *
-                Math.Sin(meanAnomaly) + 0.02 * Math.Sin(2 * meanAnomaly));
-
-            double elipticalLongitude =
-                CorrectAngle(meanLongitude + equationOfCenter);
-
-            double obliquity = (23.439 - 0.013 * julianCenturies) * Deg2Rad;
-
-            // Right Ascension  
-            double rightAscension = Math.Atan2(
-                Math.Cos(obliquity) * Math.Sin(elipticalLongitude),
-                Math.Cos(elipticalLongitude));
-
-            double declination = Math.Asin(
-                Math.Sin(rightAscension) * Math.Sin(obliquity));
-
-            // Horizontal Coordinates  
-            double hourAngle = CorrectAngle(siderealTime * Deg2Rad) - rightAscension;
-
-            if (hourAngle > Math.PI)
-            {
-                hourAngle -= 2 * Math.PI;
-            }
-
-            double altitude = Math.Asin(Math.Sin(latitude * Deg2Rad) *
-                Math.Sin(declination) + Math.Cos(latitude * Deg2Rad) *
-                Math.Cos(declination) * Math.Cos(hourAngle));
-
-            // Nominator and denominator for calculating Azimuth  
-            // angle. Needed to test which quadrant the angle is in.  
-            double aziNom = -Math.Sin(hourAngle);
-            double aziDenom =
-                Math.Tan(declination) * Math.Cos(latitude * Deg2Rad) -
-                Math.Sin(latitude * Deg2Rad) * Math.Cos(hourAngle);
-
-            double azimuth = Math.Atan(aziNom / aziDenom);
-
-            if (aziDenom < 0) // In 2nd or 3rd quadrant  
-            {
-                azimuth += Math.PI;
-            }
-            else if (aziNom < 0) // In 4th quadrant  
-            {
-                azimuth += 2 * Math.PI;
-            }
-
-            outAltitude = altitude * Mathf.Rad2Deg;
-            outAzimuth = azimuth * Mathf.Rad2Deg;
-        }
-
-        /*! 
-        * \brief Corrects an angle. 
-        * 
-        * \param angleInRadians An angle expressed in radians. 
-        * \return An angle in the range 0 to 2*PI. 
-        */
-        private static double CorrectAngle(double angleInRadians)
-        {
-            if (angleInRadians < 0)
-            {
-                return 2 * Math.PI - (Math.Abs(angleInRadians) % (2 * Math.PI));
-            }
-            else if (angleInRadians > 2 * Math.PI)
-            {
-                return angleInRadians % (2 * Math.PI);
-            }
-            else
-            {
-                return angleInRadians;
-            }
-        }
-    }
-
 }
