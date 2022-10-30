@@ -8,7 +8,6 @@ namespace Module
     public class SpawnManagerController : MonoBehaviour
     {
         public GameObject[] obstaclePrefabs;
-
         private Vector3 originalPosition;
         private Vector3 spawnPosition;
         private Quaternion spawnRotation;
@@ -36,7 +35,7 @@ namespace Module
 
         void SpawnObstacle()
         {
-            float radius = Random.Range(3.5f, 4.5f);
+            float radius = Random.Range(4.5f, 5.5f);
             spawnPosition.x = Random.Range(-1f, 1f);
             spawnPosition.y = Random.Range(0.5f, 1f);
             spawnPosition.z = Random.Range(-1f, 1f);

@@ -1,5 +1,0 @@
-mlagents-learn Config/PPO/ppo.yaml --run-id=firstRun --torch-device=cuda:0 --seed=42 --time-scale=1000 --env=F:\Projects\AdaptiveSolarTree\Simulation\Executable\MyProject --num-envs=12 --no-graphics --resume
-
-mlagents-learn Config/PPO/ppo.yaml --run-id=firstRun --torch-device=cuda:0 --seed=42 --env=F:\Projects\AdaptiveSolarTree\Simulation\Executable\MyProject --num-envs=1 --width=720 --height=480 --resume
-
-mlagents-learn Config/PPO/ppo.yaml --run-id=firstRun --torch-device=cuda:0 --seed=42 --time-scale=20

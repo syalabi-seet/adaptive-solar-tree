@@ -2,31 +2,58 @@
     "Etiolation": {
         "checkpoints": [
             {
-                "steps": 50435,
-                "file_path": "results\\firstRun\\Etiolation\\Etiolation-50435.onnx",
-                "reward": -0.24587273597717285,
-                "creation_time": 1666701154.4288595,
+                "steps": 17499988,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-17499988.onnx",
+                "reward": 0.9989837398373984,
+                "creation_time": 1667100731.5220804,
                 "auxillary_file_paths": [
-                    "results\\firstRun\\Etiolation\\Etiolation-50435.pt"
+                    "results\\firstRun\\Etiolation\\Etiolation-17499988.pt"
                 ]
             },
             {
-                "steps": 151257,
-                "file_path": "results\\firstRun\\Etiolation\\Etiolation-151257.onnx",
-                "reward": -0.48891668126452714,
-                "creation_time": 1666702020.362792,
+                "steps": 17999999,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-17999999.onnx",
+                "reward": 0.9975863298149378,
+                "creation_time": 1667102277.487658,
                 "auxillary_file_paths": [
-                    "results\\firstRun\\Etiolation\\Etiolation-151257.pt"
+                    "results\\firstRun\\Etiolation\\Etiolation-17999999.pt"
+                ]
+            },
+            {
+                "steps": 18499999,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-18499999.onnx",
+                "reward": 0.9981633038072805,
+                "creation_time": 1667103795.6821096,
+                "auxillary_file_paths": [
+                    "results\\firstRun\\Etiolation\\Etiolation-18499999.pt"
+                ]
+            },
+            {
+                "steps": 18999969,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-18999969.onnx",
+                "reward": 0.9980458656195984,
+                "creation_time": 1667105315.5991561,
+                "auxillary_file_paths": [
+                    "results\\firstRun\\Etiolation\\Etiolation-18999969.pt"
+                ]
+            },
+            {
+                "steps": 19194634,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-19194634.onnx",
+                "reward": 0.9971220741329495,
+                "creation_time": 1667105906.5774026,
+                "auxillary_file_paths": [
+                    "results\\firstRun\\Etiolation\\Etiolation-19194634.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 151257,
+            "steps": 19194634,
             "file_path": "results\\firstRun\\Etiolation.onnx",
-            "reward": -0.48891668126452714,
-            "creation_time": 1666702020.362792,
+            "reward": 0.9971220741329495,
+            "creation_time": 1667105906.5774026,
             "auxillary_file_paths": [
-                "results\\firstRun\\Etiolation\\Etiolation-151257.pt"
+                "results\\firstRun\\Etiolation\\Etiolation-19194634.pt"
             ]
         }
     },

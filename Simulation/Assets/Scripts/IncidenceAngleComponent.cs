@@ -53,7 +53,7 @@ namespace Module
                 {
                     color = Color.green;
                 } 
-                else if (shadowRatio < shadowRatioLimit)
+                else if (incidenceAngle < incidenceAngleLimit || shadowRatio < shadowRatioLimit)
                 {
                     color = Color.yellow;
                 } 

@@ -10,13 +10,19 @@ namespace Module
         ArticulationBody articulationBody;
         AgentController agentController;
         ArticulationReducedSpace originalPosition;
+        ArticulationReducedSpace originalAcceleration;
+        ArticulationReducedSpace originalForce;
+        ArticulationReducedSpace originalVelocity;
+
+        public float lowerLimit = -180f;
+        public float upperLimit = 180f;
+        public float jointSpeed = 300f;
 
         // Start is called before the first frame update
         void Start()
         {
             articulationBody = GetComponent<ArticulationBody>();
             agentController = gameObject.GetComponentInParent<AgentController>();
-            originalPosition = articulationBody.jointPosition;
         }
         
         float CurrentRotation()
@@ -33,17 +39,30 @@ namespace Module
             articulationBody.xDrive = drive;
         }
 
-        public void ResetJoint()
-        {       
-            
+        public void Reset()
+        {
+            var drive = articulationBody.xDrive;
+            float upperLimit = drive.upperLimit;
+            float lowerLimit = drive.lowerLimit;
+            drive.target = Random.Range(lowerLimit, upperLimit);
+            articulationBody.xDrive = drive;
+
+            articulationBody.jointPosition = new ArticulationReducedSpace(0f, 0f, 0f);
+            articulationBody.jointAcceleration = new ArticulationReducedSpace(0f, 0f, 0f);
+            articulationBody.jointForce = new ArticulationReducedSpace(0f, 0f, 0f);
+            articulationBody.jointVelocity = new ArticulationReducedSpace(0f, 0f, 0f);
+
+            articulationBody.velocity = Vector3.zero;
+            articulationBody.angularVelocity = Vector3.zero;
+
+            articulationBody.ResetCenterOfMass();
+            articulationBody.ResetInertiaTensor();
         }
 
         void OnCollisionEnter(Collision collision)
         {
-            agentController.SetReward(-1f);  
-            agentController.EndEpisode();                
-            print(collision.collider); 
-            print(agentController.StepCount);                 
+            agentController.SetReward(-1f);
+            agentController.EndEpisode();
         }
     }
 }

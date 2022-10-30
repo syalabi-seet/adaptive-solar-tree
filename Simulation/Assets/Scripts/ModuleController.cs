@@ -13,7 +13,6 @@ namespace Module
         {
             public string inputAxis;
             public GameObject robotPart;
-            public float jointSpeed;
         }
         public Joint[] joints;
 
@@ -34,7 +33,7 @@ namespace Module
             for (int i = 0; i < joints.Length; i++)
             {
                 JointController jointController = joints[i].robotPart.GetComponent<JointController>();
-                float actionVal = actions[i] * joints[i].jointSpeed;
+                float actionVal = actions[i] * jointController.jointSpeed;
                 jointController.RotateTo(actionVal);
             }
         }
@@ -44,7 +43,7 @@ namespace Module
             for (int i = 0; i < joints.Length; i++)
             {
                 JointController jointController = joints[i].robotPart.GetComponent<JointController>();
-                jointController.ResetJoint();
+                jointController.Reset();
             }
         }
     }

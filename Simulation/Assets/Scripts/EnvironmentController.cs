@@ -37,7 +37,6 @@ namespace Module
         public float incidenceAngleLimit = 5f;       
 
         public DateTime startTime;
-        public DateTime endTime;
         public double latitude;
         public double longitude;
         public string country;
@@ -90,23 +89,15 @@ namespace Module
             DateTime sunRise;
             DateTime sunSet;
             sunController.CalculateSunHours(startTime, latitude, longitude, out sunRise, out sunSet);
-            int sunRiseHour = sunRise.Hour;
-            int sunSetHour = sunSet.Hour;
-            if ((sunRise - startTime).TotalMinutes < 0)
-            {
-                sunRiseHour = 24 - sunRiseHour;
-            }
+            DateTime localSunRise = sunRise.AddHours(timeOffset);
+            DateTime localSunSet = sunSet.AddHours(timeOffset);
+            DateTime localStartTime = startTime.AddHours(timeOffset);
 
-            if ((sunSet - startTime).TotalMinutes < 0)
-            {
-                sunSetHour = 24 - sunSetHour;
-            }
+            int hour = UnityEngine.Random.Range(localSunRise.Hour, localSunSet.Hour);
+            int minute = UnityEngine.Random.Range(localSunRise.Minute, localSunSet.Minute);
 
-            int hour = UnityEngine.Random.Range(sunRiseHour, sunSetHour);
-            int minute = UnityEngine.Random.Range(sunRise.Minute, sunSet.Minute);
-            startTime = startTime.AddHours(hour);
-            startTime = startTime.AddMinutes(minute);
-            endTime = startTime.AddMinutes(30);
+            localStartTime = new DateTime(localStartTime.Year, localStartTime.Month, localStartTime.Day, hour, minute, 0);
+            startTime = localStartTime.AddHours(-timeOffset);
         }
 
         private void Update()

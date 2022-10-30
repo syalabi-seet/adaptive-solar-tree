@@ -22,17 +22,18 @@ namespace Module
 
         [SerializeField]
         public SpawnManagerController spawnManager;
-
-        ModuleController moduleController;
-        ModuleController.Joint[] joints;
-        GameObject[] solarPanels;
-
         float incidenceAngleLimit;
         float shadowRatioLimit;
+        ModuleController moduleController;
+        ModuleController.Joint[] joints;
+        GameObject module;
+
+        GameObject[] solarPanels;
 
         public override void Initialize()
         {
-            moduleController = GetComponent<ModuleController>();
+            module = GameObject.FindWithTag("Module");
+            moduleController = gameObject.GetComponentInChildren<ModuleController>();
             joints = moduleController.joints;
             solarPanels = moduleController.solarPanels;
             incidenceAngleLimit = environmentController.incidenceAngleLimit;
@@ -50,28 +51,25 @@ namespace Module
             }
 
             // Add location coordinates (2)
-            sensor.AddObservation(
-                Mathf.InverseLerp(-90f, 90f, (float)environmentController.latitude));
-            sensor.AddObservation(
-                Mathf.InverseLerp(-180f, 180f, (float)environmentController.longitude));  
+            sensor.AddObservation((float)environmentController.latitude);
+            sensor.AddObservation((float)environmentController.longitude);
             
-            // Add solar angles (2)                
-            sensor.AddObservation(
-                Mathf.InverseLerp(0f, 360f, (float)sunController.solarAzimuth));
-            sensor.AddObservation(
-                Mathf.InverseLerp(-90f, 90f, (float)sunController.solarAltitude));
+            // Add solar angles (2)    
+            sensor.AddObservation((float)sunController.solarAzimuth);
+            sensor.AddObservation((float)sunController.solarAltitude);
 
             // Add current motor angle state (5)
             for (int i = 0; i < joints.Length; i++)
             {
                 float targetRotation = joints[i].robotPart.GetComponent<ArticulationBody>().xDrive.target;
-                targetRotation = Mathf.InverseLerp(-180f, 180f, targetRotation);
                 sensor.AddObservation(targetRotation);
-            }         
+            }    
         }
 
         public override void OnActionReceived(ActionBuffers actionBuffers)
         {
+            moduleController.SetJoints(actionBuffers);   
+
             int count = 0;
             for (int i = 0; i < solarPanels.Length; i++)
             {
@@ -86,19 +84,21 @@ namespace Module
 
             if (count == solarPanels.Length)
             {
+                SetReward(1f);
                 EndEpisode();
             }
             else
             {
-                SetReward(-0.001f);  
-                moduleController.SetJoints(actionBuffers);           
+                SetReward(-0.001f);
             }
         }
 
         public override void OnEpisodeBegin()
         {
+            SetReward(0f);
+            moduleController.ResetJoints();
             environmentController.Reset();            
-            spawnManager.SpawnObstacles();           
+            spawnManager.SpawnObstacles();         
         }
 
         public override void Heuristic(in ActionBuffers actionsOut)
