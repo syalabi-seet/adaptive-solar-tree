@@ -42,15 +42,14 @@ namespace Module
         public void Reset()
         {
             var drive = articulationBody.xDrive;
-            float upperLimit = drive.upperLimit;
-            float lowerLimit = drive.lowerLimit;
             drive.target = Random.Range(lowerLimit, upperLimit);
+            // drive.target = 0f;
             articulationBody.xDrive = drive;
 
             articulationBody.jointPosition = new ArticulationReducedSpace(0f, 0f, 0f);
             articulationBody.jointAcceleration = new ArticulationReducedSpace(0f, 0f, 0f);
             articulationBody.jointForce = new ArticulationReducedSpace(0f, 0f, 0f);
-            articulationBody.jointVelocity = new ArticulationReducedSpace(0f, 0f, 0f);
+            articulationBody.jointVelocity = new ArticulationReducedSpace(0f, 0f, 0f);           
 
             articulationBody.velocity = Vector3.zero;
             articulationBody.angularVelocity = Vector3.zero;

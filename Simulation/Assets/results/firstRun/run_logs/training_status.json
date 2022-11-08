@@ -2,58 +2,58 @@
     "Etiolation": {
         "checkpoints": [
             {
-                "steps": 17499988,
-                "file_path": "results\\firstRun\\Etiolation\\Etiolation-17499988.onnx",
-                "reward": 0.9989837398373984,
-                "creation_time": 1667100731.5220804,
+                "steps": 2999999,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-2999999.onnx",
+                "reward": 0.9947255525303188,
+                "creation_time": 1667279571.7944212,
                 "auxillary_file_paths": [
-                    "results\\firstRun\\Etiolation\\Etiolation-17499988.pt"
+                    "results\\firstRun\\Etiolation\\Etiolation-2999999.pt"
                 ]
             },
             {
-                "steps": 17999999,
-                "file_path": "results\\firstRun\\Etiolation\\Etiolation-17999999.onnx",
-                "reward": 0.9975863298149378,
-                "creation_time": 1667102277.487658,
+                "steps": 3499977,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-3499977.onnx",
+                "reward": 0.9950710018454231,
+                "creation_time": 1667280839.4455981,
                 "auxillary_file_paths": [
-                    "results\\firstRun\\Etiolation\\Etiolation-17999999.pt"
+                    "results\\firstRun\\Etiolation\\Etiolation-3499977.pt"
                 ]
             },
             {
-                "steps": 18499999,
-                "file_path": "results\\firstRun\\Etiolation\\Etiolation-18499999.onnx",
-                "reward": 0.9981633038072805,
-                "creation_time": 1667103795.6821096,
+                "steps": 3999903,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-3999903.onnx",
+                "reward": 0.9971797183175142,
+                "creation_time": 1667282085.2518594,
                 "auxillary_file_paths": [
-                    "results\\firstRun\\Etiolation\\Etiolation-18499999.pt"
+                    "results\\firstRun\\Etiolation\\Etiolation-3999903.pt"
                 ]
             },
             {
-                "steps": 18999969,
-                "file_path": "results\\firstRun\\Etiolation\\Etiolation-18999969.onnx",
-                "reward": 0.9980458656195984,
-                "creation_time": 1667105315.5991561,
+                "steps": 4499999,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-4499999.onnx",
+                "reward": 0.9952228594413096,
+                "creation_time": 1667283386.9657934,
                 "auxillary_file_paths": [
-                    "results\\firstRun\\Etiolation\\Etiolation-18999969.pt"
+                    "results\\firstRun\\Etiolation\\Etiolation-4499999.pt"
                 ]
             },
             {
-                "steps": 19194634,
-                "file_path": "results\\firstRun\\Etiolation\\Etiolation-19194634.onnx",
-                "reward": 0.9971220741329495,
-                "creation_time": 1667105906.5774026,
+                "steps": 4592709,
+                "file_path": "results\\firstRun\\Etiolation\\Etiolation-4592709.onnx",
+                "reward": 0.9973018871484741,
+                "creation_time": 1667283621.2711651,
                 "auxillary_file_paths": [
-                    "results\\firstRun\\Etiolation\\Etiolation-19194634.pt"
+                    "results\\firstRun\\Etiolation\\Etiolation-4592709.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 19194634,
+            "steps": 4592709,
             "file_path": "results\\firstRun\\Etiolation.onnx",
-            "reward": 0.9971220741329495,
-            "creation_time": 1667105906.5774026,
+            "reward": 0.9973018871484741,
+            "creation_time": 1667283621.2711651,
             "auxillary_file_paths": [
-                "results\\firstRun\\Etiolation\\Etiolation-19194634.pt"
+                "results\\firstRun\\Etiolation\\Etiolation-4592709.pt"
             ]
         }
     },

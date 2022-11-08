@@ -11,7 +11,7 @@ namespace Module
         private Vector3 originalPosition;
         private Vector3 spawnPosition;
         private Quaternion spawnRotation;
-        private int numObstacles = 20;
+        private int numObstacles = 15;
         private float hRange;
         private float vRange;
         private float minSize = 0.5f;

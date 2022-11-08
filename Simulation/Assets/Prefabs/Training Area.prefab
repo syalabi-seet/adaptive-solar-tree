@@ -155,14 +155,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5798630354994347951}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2776376564331074535}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!20 &4106993624246614278
 Camera:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ Camera:
   m_GameObject: {fileID: 5798630354994347951}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -186,18 +186,18 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 0.33
+  far clip plane: 15
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 0.83
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
+  m_TargetTexture: {fileID: 8400000, guid: 2c6bbcf4850d6194c8958f5a5412883f, type: 2}
+  m_TargetDisplay: 1
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
@@ -262,6 +262,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1554843206263081215}
     m_Modifications:
     - target: {fileID: 144635686597196475, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
+      propertyPath: m_Twist
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 144635686597196475, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
       propertyPath: m_XDrive.damping
       value: 100
       objectReference: {fileID: 0}
@@ -269,6 +273,18 @@ PrefabInstance:
       propertyPath: m_XDrive.stiffness
       value: 100000
       objectReference: {fileID: 0}
+    - target: {fileID: 144635686597196475, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
+      propertyPath: m_XDrive.lowerLimit
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 144635686597196475, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
+      propertyPath: m_XDrive.upperLimit
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931405679074722857, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
+      propertyPath: m_Twist
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1931405679074722857, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
       propertyPath: m_XDrive.damping
       value: 100
@@ -276,6 +292,14 @@ PrefabInstance:
     - target: {fileID: 1931405679074722857, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
       propertyPath: m_XDrive.stiffness
       value: 100000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931405679074722857, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
+      propertyPath: m_XDrive.lowerLimit
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931405679074722857, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
+      propertyPath: m_XDrive.upperLimit
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 2535483879373945258, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
       propertyPath: joints.Array.data[0].jointSpeed
@@ -374,8 +398,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7745802905082401589}
     - target: {fileID: 3395734756526632559, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 2fe5d8d0403a55a43862f6da4cd1d7af, type: 3}
+    - target: {fileID: 3395734756526632559, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
+      propertyPath: m_UseChildSensors
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3395734756526632559, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3395734756526632559, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
+      propertyPath: m_BrainParameters.NumStackedVectorObservations
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
@@ -396,27 +432,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2332e5999b1d44ea3f043857947743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1554843204935774656 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3395734756526632555, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
-  m_PrefabInstance: {fileID: 4230000921231744939}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1139343158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1554843204935774656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Record: 0
-  NumStepsToRecord: 0
-  DemonstrationName: EtiolationRecording
-  DemonstrationDirectory: 
+  lowerLimit: -180
+  upperLimit: 180
+  jointSpeed: 300
 --- !u!4 &1554843204935774663 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3395734756526632556, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
@@ -439,6 +457,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2332e5999b1d44ea3f043857947743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lowerLimit: -90
+  upperLimit: 90
+  jointSpeed: 300
 --- !u!4 &2776376564331074535 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2032338028734417996, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
@@ -461,6 +482,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2332e5999b1d44ea3f043857947743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lowerLimit: -60
+  upperLimit: 60
+  jointSpeed: 300
 --- !u!1 &4649547101049034958 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8806077795109062501, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
@@ -478,6 +502,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2332e5999b1d44ea3f043857947743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lowerLimit: -180
+  upperLimit: 180
+  jointSpeed: 300
 --- !u!1 &7159189740041558445 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6478839616653460998, guid: a4ec7061f579a144eaf603d2547e9b59, type: 3}
@@ -495,3 +522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2332e5999b1d44ea3f043857947743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lowerLimit: -90
+  upperLimit: 90
+  jointSpeed: 300

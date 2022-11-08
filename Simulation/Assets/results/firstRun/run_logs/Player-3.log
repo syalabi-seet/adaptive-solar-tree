@@ -9,7 +9,7 @@ NullGfxDevice:
     Renderer: Null Device
     Vendor:   Unity Technologies
 Begin MonoManager ReloadAssembly
-- Completed reload, in  2.759 seconds
+- Completed reload, in  2.720 seconds
 ERROR: Shader Sprites/Default shader is not supported on this GPU (none of subshaders/fallbacks are suitable)
 Microsoft Media Foundation video decoding to texture disabled: graphics device is Null, only Direct3D 11 and Direct3D 12 (only on desktop) are supported for hardware-accelerated video decoding.
 ERROR: Shader Sprites/Mask shader is not supported on this GPU (none of subshaders/fallbacks are suitable)
@@ -23,7 +23,7 @@ ERROR: Shader Standard shader is not supported on this GPU (none of subshaders/f
 WARNING: Shader Unsupported: 'Standard' - All subshaders removed
 WARNING: Shader Did you use #pragma only_renderers and omit this platform?
 WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
-UnloadTime: 1.063000 ms
+UnloadTime: 0.702700 ms
 Unable to save timers to file F:/Projects/AdaptiveSolarTree/Simulation/Executable/MyProject_Data\ML-Agents\Timers\BaseScene_timers.json
 Setting up 16 worker threads for Enlighten.
 Releasing render texture that is set to be RenderTexture.active!
@@ -31,7 +31,7 @@ Memory Statistics:
 [ALLOC_TEMP_TLS] TLS Allocator
   StackAllocators : 
     [ALLOC_TEMP_MAIN]
-      Peak usage frame count: [0-1.0 KB]: 6954 frames, [2.0 KB-4.0 KB]: 4615 frames, [2.0 MB-4.0 MB]: 1 frames
+      Peak usage frame count: [0-1.0 KB]: 19108 frames, [2.0 KB-4.0 KB]: 6748 frames, [2.0 MB-4.0 MB]: 1 frames
       Initial Block Size 4.0 MB
       Current Block Size 4.0 MB
       Peak Allocated Bytes 2.1 MB
@@ -88,8 +88,8 @@ Memory Statistics:
       Overflow Count 0
     [ALLOC_TEMP_Job.Worker 3]
       Initial Block Size 256.0 KB
-      Current Block Size 296.0 KB
-      Peak Allocated Bytes 269.1 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 0 B
       Overflow Count 0
     [ALLOC_TEMP_Background Job.Worker 12]
       Initial Block Size 32.0 KB
@@ -124,7 +124,7 @@ Memory Statistics:
     [ALLOC_TEMP_Job.Worker 2]
       Initial Block Size 256.0 KB
       Current Block Size 256.0 KB
-      Peak Allocated Bytes 0 B
+      Peak Allocated Bytes 183.6 KB
       Overflow Count 0
     [ALLOC_TEMP_Background Job.Worker 3]
       Initial Block Size 32.0 KB
@@ -171,12 +171,12 @@ Memory Statistics:
       Current Block Size 372.0 KB
       Peak Allocated Bytes 369.7 KB
       Overflow Count 2
-    [ALLOC_TEMP_Job.Worker 26]
+    [ALLOC_TEMP_Job.Worker 21]
       Initial Block Size 256.0 KB
       Current Block Size 256.0 KB
       Peak Allocated Bytes 54 B
       Overflow Count 0
-    [ALLOC_TEMP_Job.Worker 21]
+    [ALLOC_TEMP_Job.Worker 26]
       Initial Block Size 256.0 KB
       Current Block Size 256.0 KB
       Peak Allocated Bytes 54 B
@@ -244,17 +244,17 @@ Memory Statistics:
     [ALLOC_TEMP_Job.Worker 9]
       Initial Block Size 256.0 KB
       Current Block Size 256.0 KB
-      Peak Allocated Bytes 183.6 KB
+      Peak Allocated Bytes 0 B
       Overflow Count 0
     [ALLOC_TEMP_Job.Worker 8]
       Initial Block Size 256.0 KB
-      Current Block Size 256.0 KB
-      Peak Allocated Bytes 0 B
+      Current Block Size 296.0 KB
+      Peak Allocated Bytes 269.1 KB
       Overflow Count 0
     [ALLOC_TEMP_Job.Worker 7]
       Initial Block Size 256.0 KB
       Current Block Size 256.0 KB
-      Peak Allocated Bytes 126.3 KB
+      Peak Allocated Bytes 0 B
       Overflow Count 0
     [ALLOC_TEMP_Job.Worker 23]
       Initial Block Size 256.0 KB
@@ -269,7 +269,7 @@ Memory Statistics:
     [ALLOC_TEMP_Job.Worker 10]
       Initial Block Size 256.0 KB
       Current Block Size 256.0 KB
-      Peak Allocated Bytes 54 B
+      Peak Allocated Bytes 126.3 KB
       Overflow Count 0
     [ALLOC_TEMP_Job.Worker 15]
       Initial Block Size 256.0 KB
@@ -297,7 +297,7 @@ Memory Statistics:
       Peak Allocated Bytes 279 B
       Overflow Count 0
 [ALLOC_DEFAULT] Dual Thread Allocator
-  Peak main deferred allocation count 143
+  Peak main deferred allocation count 184
     [ALLOC_BUCKET]
       Large Block size 4.0 MB
       Used Block count 1
@@ -305,24 +305,24 @@ Memory Statistics:
       Failed Allocations. Bucket layout:
         16B: 1 Subsections = 1024 buckets. Failed count: 0
         32B: 7 Subsections = 3584 buckets. Failed count: 0
-        48B: 88 Subsections = 30037 buckets. Failed count: 10325493
+        48B: 88 Subsections = 30037 buckets. Failed count: 5137331
         64B: 17 Subsections = 4352 buckets. Failed count: 0
-        80B: 137 Subsections = 28057 buckets. Failed count: 861799
+        80B: 136 Subsections = 27852 buckets. Failed count: 285305
         96B: 2 Subsections = 341 buckets. Failed count: 0
         112B: 2 Subsections = 292 buckets. Failed count: 0
-        128B: 2 Subsections = 256 buckets. Failed count: 0
+        128B: 3 Subsections = 384 buckets. Failed count: 0
     [ALLOC_DEFAULT_MAIN]
-      Peak usage frame count: [4.0 MB-8.0 MB]: 535 frames, [8.0 MB-16.0 MB]: 1281 frames, [16.0 MB-32.0 MB]: 2885 frames, [32.0 MB-64.0 MB]: 5784 frames, [64.0 MB-128.0 MB]: 1085 frames
+      Peak usage frame count: [4.0 MB-8.0 MB]: 575 frames, [8.0 MB-16.0 MB]: 1291 frames, [16.0 MB-32.0 MB]: 3095 frames, [32.0 MB-64.0 MB]: 6209 frames, [64.0 MB-128.0 MB]: 12414 frames, [128.0 MB-256.0 MB]: 2273 frames
       Requested Block Size 16.0 MB
-      Peak Block count 5
-      Peak Allocated memory 80.4 MB
-      Peak Large allocation bytes 24.0 MB
+      Peak Block count 9
+      Peak Allocated memory 154.4 MB
+      Peak Large allocation bytes 48.0 MB
     [ALLOC_DEFAULT_THREAD]
-      Peak usage frame count: [16.0 MB-32.0 MB]: 11569 frames, [32.0 MB-64.0 MB]: 1 frames
+      Peak usage frame count: [16.0 MB-32.0 MB]: 25856 frames, [32.0 MB-64.0 MB]: 1 frames
       Requested Block Size 16.0 MB
-      Peak Block count 2
-      Peak Allocated memory 51.2 MB
-      Peak Large allocation bytes 29.8 MB
+      Peak Block count 3
+      Peak Allocated memory 51.4 MB
+      Peak Large allocation bytes 16.0 MB
 [ALLOC_TEMP_JOB_1_FRAME]
   Initial Block Size 2.0 MB
   Used Block Count 1
@@ -352,20 +352,20 @@ Memory Statistics:
       Failed Allocations. Bucket layout:
         16B: 1 Subsections = 1024 buckets. Failed count: 0
         32B: 7 Subsections = 3584 buckets. Failed count: 0
-        48B: 88 Subsections = 30037 buckets. Failed count: 10325493
+        48B: 88 Subsections = 30037 buckets. Failed count: 5137331
         64B: 17 Subsections = 4352 buckets. Failed count: 0
-        80B: 137 Subsections = 28057 buckets. Failed count: 861799
+        80B: 136 Subsections = 27852 buckets. Failed count: 285305
         96B: 2 Subsections = 341 buckets. Failed count: 0
         112B: 2 Subsections = 292 buckets. Failed count: 0
-        128B: 2 Subsections = 256 buckets. Failed count: 0
+        128B: 3 Subsections = 384 buckets. Failed count: 0
     [ALLOC_GFX_MAIN]
-      Peak usage frame count: [0.5 MB-1.0 MB]: 1 frames, [1.0 MB-2.0 MB]: 2 frames, [2.0 MB-4.0 MB]: 4 frames, [4.0 MB-8.0 MB]: 7 frames, [8.0 MB-16.0 MB]: 15 frames, [16.0 MB-32.0 MB]: 29 frames, [32.0 MB-64.0 MB]: 60 frames, [64.0 MB-128.0 MB]: 118 frames, [128.0 MB-256.0 MB]: 236 frames, [256.0 MB-0.50 GB]: 472 frames, [0.50 GB-1.00 GB]: 945 frames, [1.00 GB-2.00 GB]: 1885 frames, [2.00 GB-4.00 GB]: 3768 frames, [4.00 GB-8.00 GB]: 4028 frames
+      Peak usage frame count: [0.5 MB-1.0 MB]: 1 frames, [1.0 MB-2.0 MB]: 2 frames, [2.0 MB-4.0 MB]: 4 frames, [4.0 MB-8.0 MB]: 7 frames, [8.0 MB-16.0 MB]: 15 frames, [16.0 MB-32.0 MB]: 29 frames, [32.0 MB-64.0 MB]: 60 frames, [64.0 MB-128.0 MB]: 118 frames, [128.0 MB-256.0 MB]: 236 frames, [256.0 MB-0.50 GB]: 472 frames, [0.50 GB-1.00 GB]: 945 frames, [1.00 GB-2.00 GB]: 1885 frames, [2.00 GB-4.00 GB]: 3768 frames, [4.00 GB-8.00 GB]: 7537 frames, [8.00 GB-16.00 GB]: 10778 frames
       Requested Block Size 16.0 MB
-      Peak Block count 394
-      Peak Allocated memory 6.14 GB
+      Peak Block count 881
+      Peak Allocated memory 13.72 GB
       Peak Large allocation bytes 0 B
     [ALLOC_GFX_THREAD]
-      Peak usage frame count: [32.0 KB-64.0 KB]: 11570 frames
+      Peak usage frame count: [32.0 KB-64.0 KB]: 25857 frames
       Requested Block Size 16.0 MB
       Peak Block count 1
       Peak Allocated memory 42.5 KB
@@ -379,20 +379,20 @@ Memory Statistics:
       Failed Allocations. Bucket layout:
         16B: 1 Subsections = 1024 buckets. Failed count: 0
         32B: 7 Subsections = 3584 buckets. Failed count: 0
-        48B: 88 Subsections = 30037 buckets. Failed count: 10325493
+        48B: 88 Subsections = 30037 buckets. Failed count: 5137331
         64B: 17 Subsections = 4352 buckets. Failed count: 0
-        80B: 137 Subsections = 28057 buckets. Failed count: 861799
+        80B: 136 Subsections = 27852 buckets. Failed count: 285305
         96B: 2 Subsections = 341 buckets. Failed count: 0
         112B: 2 Subsections = 292 buckets. Failed count: 0
-        128B: 2 Subsections = 256 buckets. Failed count: 0
+        128B: 3 Subsections = 384 buckets. Failed count: 0
     [ALLOC_CACHEOBJECTS_MAIN]
-      Peak usage frame count: [0.5 MB-1.0 MB]: 11570 frames
+      Peak usage frame count: [0.5 MB-1.0 MB]: 25857 frames
       Requested Block Size 4.0 MB
       Peak Block count 1
       Peak Allocated memory 0.9 MB
       Peak Large allocation bytes 0 B
     [ALLOC_CACHEOBJECTS_THREAD]
-      Peak usage frame count: [64.0 KB-128.0 KB]: 11569 frames, [1.0 MB-2.0 MB]: 1 frames
+      Peak usage frame count: [64.0 KB-128.0 KB]: 25856 frames, [1.0 MB-2.0 MB]: 1 frames
       Requested Block Size 4.0 MB
       Peak Block count 1
       Peak Allocated memory 1.3 MB
@@ -406,20 +406,20 @@ Memory Statistics:
       Failed Allocations. Bucket layout:
         16B: 1 Subsections = 1024 buckets. Failed count: 0
         32B: 7 Subsections = 3584 buckets. Failed count: 0
-        48B: 88 Subsections = 30037 buckets. Failed count: 10325493
+        48B: 88 Subsections = 30037 buckets. Failed count: 5137331
         64B: 17 Subsections = 4352 buckets. Failed count: 0
-        80B: 137 Subsections = 28057 buckets. Failed count: 861799
+        80B: 136 Subsections = 27852 buckets. Failed count: 285305
         96B: 2 Subsections = 341 buckets. Failed count: 0
         112B: 2 Subsections = 292 buckets. Failed count: 0
-        128B: 2 Subsections = 256 buckets. Failed count: 0
+        128B: 3 Subsections = 384 buckets. Failed count: 0
     [ALLOC_TYPETREE_MAIN]
-      Peak usage frame count: [0-1.0 KB]: 11570 frames
+      Peak usage frame count: [0-1.0 KB]: 25857 frames
       Requested Block Size 2.0 MB
       Peak Block count 1
       Peak Allocated memory 1.0 KB
       Peak Large allocation bytes 0 B
     [ALLOC_TYPETREE_THREAD]
-      Peak usage frame count: [0-1.0 KB]: 11570 frames
+      Peak usage frame count: [0-1.0 KB]: 25857 frames
       Requested Block Size 2.0 MB
       Peak Block count 1
       Peak Allocated memory 256 B

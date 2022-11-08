@@ -96,7 +96,7 @@ namespace Module
         void SaveImage(Texture2D croppedTexture)
         {
             rawByteData = ImageConversion.EncodeToJPG(croppedTexture);
-            string fileName = string.Format("Assets/Data/Images/{0}.jpg", gameObject.name);
+            string fileName = string.Format("Assets/Resources/Images/{0}.jpg", gameObject.name);
             File.WriteAllBytes(fileName, rawByteData);
         }
 

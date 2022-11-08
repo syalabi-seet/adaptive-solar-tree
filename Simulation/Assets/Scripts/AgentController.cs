@@ -68,8 +68,6 @@ namespace Module
 
         public override void OnActionReceived(ActionBuffers actionBuffers)
         {
-            moduleController.SetJoints(actionBuffers);   
-
             int count = 0;
             for (int i = 0; i < solarPanels.Length; i++)
             {
@@ -90,6 +88,7 @@ namespace Module
             else
             {
                 SetReward(-0.001f);
+                moduleController.SetJoints(actionBuffers);  
             }
         }
 

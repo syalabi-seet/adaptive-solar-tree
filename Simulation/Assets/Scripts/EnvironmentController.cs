@@ -25,9 +25,6 @@ namespace Module
         public bool randomizeCountry = false; 
 
         [SerializeField]
-        public trackingFrequencies trackingFrequency = trackingFrequencies.everySecond; 
-
-        [SerializeField]
         public SunController sunController;     
 
         [SerializeField]     
@@ -128,11 +125,8 @@ namespace Module
             string date = String.Concat("Date/Time: ", startTime.AddHours(timeOffset));
             GUI.Label(new Rect(10, 40, 300, 20), date, guiStyle);
 
-            string episodeCount = String.Concat("Episode: ", agentController.CompletedEpisodes);
-            GUI.Label(new Rect(10, 60, 300, 20), episodeCount, guiStyle);
-
             string currentReward = String.Concat("Cumulative reward: ", agentController.GetCumulativeReward());
-            GUI.Label(new Rect(10, 80, 300, 20), currentReward, guiStyle);
+            GUI.Label(new Rect(10, 60, 300, 20), currentReward, guiStyle);
         }
     }
 }

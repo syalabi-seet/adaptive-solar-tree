@@ -1,42 +1,39 @@
 # Adaptive Solar Tree
 
-## Progress
-- [X] Design branch module
-- [X] Design observation-decision-action-reward cycle
-- [X] Build simulated environment using Unity
-- [ ] Train various reinforcement architectures using ML-agents' Python API and StableBaselines (DQN, PPO, AC3)
+## Abstract
+Modern solar panel systems have achieved full solar
+tracking capabilities but lacks the ability to handle power loss
+due to shadowing. In this work, we present a novel and intuitive
+method of increasing solar outputs by leveraging reinforcement
+learning and a 5-DOF robotic arm manipulator design. We utilized in-game cameras to emulate shadow ratios of solar modules
+derived from current-voltage sensor readings. The reinforcement
+agent was trained in a simulated environment equipped with
+geographically-accurate sun positioning and shadow casting using
+ray-tracing. Our approach showed promising results in simplifying and integrating solar tracking and shadow detection.
+[Publication link](Misc\Adaptive_Solar_Tree_A00229978A_AHMEDSYALABISEET.pdf)
+
+## System Architecture
+![Image](Misc\Images\SystemArch.png)
+
+## Episodic flow
+![Image](Misc\Images\EnvironmentArch.png)
 
 ## Environment
-### Observation space
-- Light sensor outputs (12 states, int)
+Simulation environment was coded in C# using Unity 3D game engine.
+### Observation space (15 elements)
+- Location's latitude and longitude (2 states, float)
+- Solar altitude and azimuth (2 states, float)
 - Shadow ratio per module (6 states, float)
-- Solar angles ([elevation angle, azimuth angle], float)
-- Current motor angles in degrees (5 states, int)
+- Current motor angles in degrees (5 states, float)
 ### Action space
-- Target angle of all motors in degrees (continuous action)
+- Target angle of all motors in degrees (5 continuous values)
 ### Rewards
-- +1 for every step when all light sensor states are 1 and incident angles are approximately perpendicular to the sun (+/- 5 deg)
+- +1 when all solar panels are within
+    - incidence angle limit < 15 degrees
+    - shadow ratio limit < 0.1
+- -1 when collision occurs
+- -0.001 for every time step
+### Episode length 
+- 3000 steps
 
-Agent will be trained every minute step and every episode will last a single day.
-
-Environment scripts will be coded in C# in Unity.
-
-## Orientation mechanism
-Due to time-constraints, an actual mechanism was not built. Instead, a mock-up design taking inspiration from 
-robotic arm manipulators was used as the mechanism namely the [Universal Robots' UR3 robotic arm](https://wiredworkers.io/universal-robots-ur3/).
-
-The supposed mechanism would have 5-axis DOF, comprising of 5 rotary joints.
-
-Off-the-shelf robotic arms tend to be equipped with servo or stepper motors that do not have high detent torque meaning that it cannot hold any torque when not powered. This characteristic will not make robotic arms work for this use case, as such, a self-locking mechanism will be required using worm gears.
-
-## Physical computing
-To further maximize power efficiency, a light-weight Raspberry Pi PICO microcontroller will be used for its physical computing. Deep sleep or dormant mode will be engaged in between periods of compute, reducing power consumptions up to 99% at 0.8mA. 
-
-Light sensors will be attached around the solar panels for shadow detection.
-
-Microcontroller scripts will be coded in C++ utilizing Tensorflow Lite API and Raspberry Pi PICO SDK.
-
-## References
-- [SPA C# Implementation](https://gist.github.com/paulhayes/54a7aa2ee3cccad4d37bb65977eb19e2)
-- [NREL's Solar Position Algorithm (SPA)](https://midcdmz.nrel.gov/spa/)
-- [On the Optimal Tilt Angle and Orientation of an On-Site Solar Photovoltaic Energy Generation System for Sabah’s Rural Electrification](https://doi.org/10.3390/su13105730)
+![Image](Misc\Images\DemoPhoto.png)

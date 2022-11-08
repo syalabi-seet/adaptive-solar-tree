@@ -6,7 +6,7 @@ behaviors:
       batch_size: 2048
       buffer_size: 20480
       learning_rate: 0.0003
-      beta: 0.01
+      beta: 0.005
       epsilon: 0.2
       lambd: 0.95
       num_epoch: 3
@@ -26,7 +26,7 @@ behaviors:
         gamma: 0.995
         strength: 1.0
         network_settings:
-          normalize: true
+          normalize: false
           hidden_units: 128
           num_layers: 2
           vis_encode_type: simple
@@ -56,7 +56,7 @@ engine_settings:
   width: 84
   height: 84
   quality_level: 5
-  time_scale: 1000.0
+  time_scale: 100.0
   target_frame_rate: -1
   capture_frame_rate: 60
   no_graphics: true
