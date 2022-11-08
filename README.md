@@ -10,13 +10,13 @@ derived from current-voltage sensor readings. The reinforcement
 agent was trained in a simulated environment equipped with
 geographically-accurate sun positioning and shadow casting using
 ray-tracing. Our approach showed promising results in simplifying and integrating solar tracking and shadow detection.
-[Publication link](Misc\Adaptive_Solar_Tree_A00229978A_AHMEDSYALABISEET.pdf)
+[Publication link](Misc/Adaptive_Solar_Tree_A00229978A_AHMEDSYALABISEET.pdf)
 
 ## System Architecture
-![Image](Misc\Images\SystemArch.png)
+![Image](Misc/Images/SystemArch.png)
 
 ## Episodic flow
-![Image](Misc\Images\EnvironmentArch.png)
+![Image](Misc/Images/EnvironmentArch.png)
 
 ## Environment
 Simulation environment was coded in C# using Unity 3D game engine.
@@ -36,4 +36,4 @@ Simulation environment was coded in C# using Unity 3D game engine.
 ### Episode length 
 - 3000 steps
 
-![Image](Misc\Images\DemoPhoto.png)
+![Image](Misc/Images/DemoPhoto.png)
